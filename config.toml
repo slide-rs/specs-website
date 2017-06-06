@@ -1,4 +1,4 @@
-baseurl = "https://slide-rs.github.io/specs"
+baseurl = "https://slide-rs.github.io/specs-website/"
 title = "Specs - Parallel ECS"
 languageCode = "en-us"
 defaultContentLanguage = "en"
@@ -8,11 +8,6 @@ defaultContentLanguage = "en"
     name = "Home"
     url  = "/"
     weight = 1
-
-#[[menu.main]]
-#    name = "Blog"
-#    url  = "/blog/"
-#    weight = 2
 
 [[menu.main]]
     name = "Docs"
