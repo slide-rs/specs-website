@@ -1,0 +1,23 @@
+dist: trusty
+language: rust
+cache: cargo
+rust:
+  - stable
+before_script:
+  - cargo install mdbook
+  - curl -O https://github.com/spf13/hugo/releases/download/v0.21/hugo_0.21_Linux-64bit.tar.gz && tar -xvzf hugo_v0.21_Linux-64bit.tar.gz
+  - export PATH=$PATH:$(pwd)
+script: ./gen.sh
+after_success: |
+  [ $TRAVIS_BRANCH = master ] &&
+  [ $TRAVIS_PULL_REQUEST = false ] &&
+  [ $TRAVIS_RUST_VERSION = stable ] &&
+  mkdir ../ghp &&
+  cp -r public/* ../ghp/ &&
+  git checkout -b gh-pages &&
+  rm -rf * &&
+  cp -r ../ghp/* ./ &&
+  git add -A &&
+  git commit -m "Update page" &&
+  git push -f https://${GH_TOKEN}@github.com/slide-re/specs.git gh-pages
+
