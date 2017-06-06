@@ -19,5 +19,5 @@ after_success: |
   cp -r ../ghp/* ./ &&
   git add -A &&
   git commit -m "Update page" &&
-  git push -f https://${GH_TOKEN}@github.com/slide-re/specs.git gh-pages
+  git push -f https://${GH_TOKEN}@github.com/slide-re/specs-website.git gh-pages
 
