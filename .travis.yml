@@ -15,7 +15,7 @@ after_success: |
   [ $TRAVIS_RUST_VERSION = stable ] &&
   mkdir ../ghp &&
   cp -r public/* ../ghp/ &&
-  git checkout -b gh-pages &&
+  git checkout --orphan gh-pages &&
   rm -rf * &&
   cp -r ../ghp/* ./ &&
   git add -A &&
