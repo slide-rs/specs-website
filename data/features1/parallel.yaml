@@ -1,0 +1,7 @@
+weight: 3
+name: parallel
+icon: "fa fa-rocket"
+description: "Using Specs means getting parallelism without thinking too
+              much about it. The `Dispatcher` automatically executes systems in
+              parallel where possible."
+

@@ -1,0 +1,31 @@
+baseurl = "https://slide-rs.github.io/specs"
+title = "Specs - Parallel ECS"
+languageCode = "en-us"
+defaultContentLanguage = "en"
+
+[menu]
+[[menu.main]]
+    name = "Home"
+    url  = "/"
+    weight = 1
+
+#[[menu.main]]
+#    name = "Blog"
+#    url  = "/blog/"
+#    weight = 2
+
+[[menu.main]]
+    name = "Docs"
+    url = "/docs/"
+    weight = 2
+
+[[menu.main]]
+    name = "GitHub"
+    url  = "https://github.com/slide-rs/specs"
+    weight = 3
+
+[params]
+    style = "specs"
+    date_format = "January 2, 2006"
+    logo = "img/logo.png"
+

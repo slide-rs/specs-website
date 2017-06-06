@@ -1,0 +1,9 @@
+# Hugo
+.DS_Store
+website/**/public/
+npm-debug.log
+/website/node_modules/*
+
+/build
+/public
+

@@ -1,0 +1,9 @@
+weight: 1
+name: pluggable
+icon: "fa fa-plug"
+description: "The types are designed to be pluggable and easy to integrate.
+              For example, the Dispatcher allows all sorts of magic for system
+              execution, but you don't have to use it. Instead, you can also
+              write your own. Also, you can freely define new components because
+              no macros are used for building the world."
+

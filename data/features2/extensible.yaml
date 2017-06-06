@@ -1,0 +1,7 @@
+weight: 3
+name: extensible
+icon: "fa fa-pencil"
+description: "The user can define own component storages and custom data
+              for a system. To make this ergonomic, there's even a custom derive
+              implemented for this."
+
