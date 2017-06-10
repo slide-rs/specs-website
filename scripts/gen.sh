@@ -6,7 +6,7 @@ rm -Rf build
 rm -Rf public
 
 # Build website
-hugo
+./scripts/hugo
 
 mkdir -p public/docs/docs/master/
 mkdir -p public/docs/book/master/
