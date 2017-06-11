@@ -33,7 +33,7 @@ mdbook build
 
 cp -r book/* ../../../public/docs/book/master/
 ### 0.9
-git checkout -b release-0.9 upstream/release-0.9
+git checkout -b release-0.9 origin/release-0.9
 cargo doc
 
 cp -r target/doc/* ../../public/docs/docs/0.9/
