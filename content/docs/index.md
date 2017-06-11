@@ -18,6 +18,7 @@ This is the rendered documentation with dependencies included.
 Please note that documentation for master might be lag behind.
 
 * [master](docs/master/specs/)
+* [0.9](docs/0.9/specs/)
 
 ## The Specs Book
 
@@ -26,6 +27,7 @@ Specs API. It's not complete yet, but it's goal is to build up a small
 game at the end.
 
 * [master](book/master/)
+* [0.9](book/0.9/)
 
 ## Other resources
 
