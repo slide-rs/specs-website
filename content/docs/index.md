@@ -19,6 +19,7 @@ Please note that documentation for master might be lag behind.
 
 * [master](docs/master/specs/)
 * [0.9](docs/0.9/specs/)
+* [0.10](docs/0.10/specs/)
 
 ## The Specs Book
 
@@ -28,6 +29,7 @@ game at the end.
 
 * [master](book/master/)
 * [0.9](book/0.9/)
+* [0.10](book/0.10/)
 
 ## Other resources
 
