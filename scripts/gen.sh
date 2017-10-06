@@ -30,7 +30,7 @@ echo "Starting build for master"
 pwd
 
 git checkout master
-cargo doc
+cargo doc --all-features
 
 cp -r target/doc/* ../../public/docs/docs/master/
 
@@ -45,7 +45,7 @@ echo "Starting build for 0.9"
 pwd
 
 git checkout -b release-0.9 origin/release-0.9
-cargo doc
+cargo doc --all-features
 
 cp -r target/doc/* ../../public/docs/docs/0.9/
 
@@ -59,7 +59,7 @@ echo "Starting build for 0.10"
 pwd
 
 git checkout -b release-0.10 origin/release-0.10
-cargo doc
+cargo doc --all-features
 
 cp -r target/doc/* ../../public/docs/docs/0.10/
 
