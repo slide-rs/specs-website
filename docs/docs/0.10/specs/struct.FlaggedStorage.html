@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `FlaggedStorage` struct in crate `specs`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, FlaggedStorage">
+
+    <title>specs::FlaggedStorage - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Struct FlaggedStorage</p><div class="block items"><ul><li><a href="#methods">Methods</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='index.html'>specs</a></p><script>window.sidebarCurrent = {name: 'FlaggedStorage', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>specs</a>::<wbr><a class="struct" href=''>FlaggedStorage</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/specs/storage/flagged.rs.html#82-86' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct FlaggedStorage&lt;C, T&gt; { /* fields omitted */ }</pre><div class='docblock'><p>Wrapper storage that stores modifications to components in a bitset.</p>
+
+<p><strong>Note:</strong> Joining over all components of a <code>FlaggedStorage</code>
+ mutably will flag all components.**</p>
+
+<p>What you want to instead is to use <code>check()</code> or <code>restrict()</code> to first
+ get the entities which contain the component,
+ and then conditionally set the component
+ after a call to <code>get_mut_unchecked()</code> or <code>get_mut()</code>.</p>
+
+<p># Examples</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">specs</span>;
+
+ <span class="kw">use</span> <span class="ident">specs</span>::{<span class="ident">Component</span>, <span class="ident">Entities</span>, <span class="ident">FlaggedStorage</span>, <span class="ident">Join</span>, <span class="ident">System</span>, <span class="ident">VecStorage</span>, <span class="ident">WriteStorage</span>};
+
+ <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Comp</span>(<span class="ident">u32</span>);
+ <span class="kw">impl</span> <span class="ident">Component</span> <span class="kw">for</span> <span class="ident">Comp</span> {
+     <span class="comment">// `FlaggedStorage` acts as a wrapper around another storage.</span>
+     <span class="comment">// You can put any store inside of here (e.g. HashMapStorage, VecStorage, etc.)</span>
+     <span class="kw">type</span> <span class="ident">Storage</span> <span class="op">=</span> <span class="ident">FlaggedStorage</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">VecStorage</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;&gt;</span>;
+ }
+
+ <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CompSystem</span>;
+ <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">System</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CompSystem</span> {
+     <span class="kw">type</span> <span class="ident">SystemData</span> <span class="op">=</span> (<span class="ident">Entities</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">WriteStorage</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Comp</span><span class="op">&gt;</span>);
+     <span class="kw">fn</span> <span class="ident">run</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, (<span class="ident">entities</span>, <span class="kw-2">mut</span> <span class="ident">comps</span>): <span class="self">Self</span>::<span class="ident">SystemData</span>) {
+         <span class="comment">// Iterates over all components like normal.</span>
+         <span class="kw">for</span> <span class="ident">comp</span> <span class="kw">in</span> (<span class="kw-2">&amp;</span><span class="ident">comps</span>).<span class="ident">join</span>() {
+             <span class="comment">// ...</span>
+         }
+
+         <span class="comment">// **Never do this**</span>
+         <span class="comment">// This will flag all components as modified regardless of whether the inner loop</span>
+         <span class="comment">// did modify their data.</span>
+         <span class="comment">//</span>
+         <span class="comment">// Only do this if you have a bunch of other components to filter out the ones you</span>
+         <span class="comment">// want to modify.</span>
+         <span class="kw">for</span> <span class="ident">comp</span> <span class="kw">in</span> (<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">comps</span>).<span class="ident">join</span>() {
+             <span class="comment">// ...</span>
+         }
+
+         <span class="comment">// Instead do something like:</span>
+         <span class="kw">for</span> (<span class="ident">entity</span>, _) <span class="kw">in</span> (<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">entities</span>, <span class="kw-2">&amp;</span><span class="ident">comps</span>.<span class="ident">check</span>()).<span class="ident">join</span>() {
+             <span class="kw">if</span> <span class="bool-val">true</span> { <span class="comment">// check whether this component should be modified.</span>
+                 <span class="kw">match</span> <span class="ident">comps</span>.<span class="ident">get_mut</span>(<span class="ident">entity</span>) {
+                     <span class="prelude-val">Some</span>(<span class="ident">component</span>) <span class="op">=&gt;</span> { <span class="comment">/* ... */</span> },
+                     <span class="prelude-val">None</span> <span class="op">=&gt;</span> { <span class="comment">/* ... */</span> },
+                 }
+             }
+         }
+
+         <span class="comment">// Or alternatively:</span>
+         <span class="kw">for</span> (<span class="ident">entity</span>, (<span class="kw-2">mut</span> <span class="ident">entry</span>, <span class="kw-2">mut</span> <span class="ident">restrict</span>)) <span class="kw">in</span> (<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">entities</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">comps</span>.<span class="ident">restrict</span>()).<span class="ident">join</span>() {
+             <span class="kw">if</span> <span class="bool-val">true</span> { <span class="comment">// check whether this component should be modified.</span>
+                  <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">comp</span> <span class="op">=</span> <span class="ident">restrict</span>.<span class="ident">get_mut_unchecked</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">entry</span>);
+                  <span class="comment">// ...</span>
+             }
+         }
+
+         <span class="comment">// To iterate over the flagged/modified components:</span>
+         <span class="kw">for</span> <span class="ident">flagged_comp</span> <span class="kw">in</span> ((<span class="kw-2">&amp;</span><span class="ident">comps</span>).<span class="ident">open</span>().<span class="number">1</span>).<span class="ident">join</span>() {
+             <span class="comment">// ...</span>
+         }
+
+         <span class="comment">// Clears the tracked storage every frame with this system.</span>
+         (<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">comps</span>).<span class="ident">open</span>().<span class="number">1</span>.<span class="ident">clear_flags</span>();
+     }
+ }</pre>
+</div>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl&lt;C, T:&nbsp;<a class="trait" href="../specs/trait.UnprotectedStorage.html" title="trait specs::UnprotectedStorage">UnprotectedStorage</a>&lt;C&gt;&gt; <a class="struct" href="../specs/struct.FlaggedStorage.html" title="struct specs::FlaggedStorage">FlaggedStorage</a>&lt;C, T&gt;</code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/flagged.rs.html#118-138' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.flagged' class="method"><span id='flagged.v' class='invisible'><code>pub fn <a href='#method.flagged' class='fnname'>flagged</a>&lt;E:&nbsp;EntityIndex&gt;(&amp;self, entity: E) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/flagged.rs.html#120-122' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Whether the component that belongs to the given entity was flagged or not.</p>
+</div><h4 id='method.clear_flags' class="method"><span id='clear_flags.v' class='invisible'><code>pub fn <a href='#method.clear_flags' class='fnname'>clear_flags</a>(&amp;mut self)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/flagged.rs.html#125-127' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>All components will be cleared of being flagged.</p>
+</div><h4 id='method.unflag' class="method"><span id='unflag.v' class='invisible'><code>pub fn <a href='#method.unflag' class='fnname'>unflag</a>&lt;E:&nbsp;EntityIndex&gt;(&amp;mut self, entity: E)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/flagged.rs.html#130-132' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Removes the flag for the component of the given entity.</p>
+</div><h4 id='method.flag' class="method"><span id='flag.v' class='invisible'><code>pub fn <a href='#method.flag' class='fnname'>flag</a>&lt;E:&nbsp;EntityIndex&gt;(&amp;mut self, entity: E)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/flagged.rs.html#135-137' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Flags a single component.</p>
+</div></div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-Default' class='impl'><span class='in-band'><code>impl&lt;C, T&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html" title="trait core::default::Default">Default</a> for <a class="struct" href="../specs/struct.FlaggedStorage.html" title="struct specs::FlaggedStorage">FlaggedStorage</a>&lt;C, T&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html" title="trait core::default::Default">Default</a>,&nbsp;</span></code><a href='#impl-Default' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/flagged.rs.html#80' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.default' class="method"><span id='default.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default' class='fnname'>default</a>() -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/flagged.rs.html#80' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns the &quot;default value&quot; for a type. <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default">Read more</a></p>
+</div></div><h3 id='impl-UnprotectedStorage&lt;C&gt;' class='impl'><span class='in-band'><code>impl&lt;C, T:&nbsp;<a class="trait" href="../specs/trait.UnprotectedStorage.html" title="trait specs::UnprotectedStorage">UnprotectedStorage</a>&lt;C&gt;&gt; <a class="trait" href="../specs/trait.UnprotectedStorage.html" title="trait specs::UnprotectedStorage">UnprotectedStorage</a>&lt;C&gt; for <a class="struct" href="../specs/struct.FlaggedStorage.html" title="struct specs::FlaggedStorage">FlaggedStorage</a>&lt;C, T&gt;</code><a href='#impl-UnprotectedStorage&lt;C&gt;' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/flagged.rs.html#88-116' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clean' class="method"><span id='clean.v' class='invisible'><code>unsafe fn <a href='../specs/trait.UnprotectedStorage.html#tymethod.clean' class='fnname'>clean</a>&lt;F&gt;(&amp;mut self, has: F) <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.Fn.html" title="trait core::ops::function::Fn">Fn</a>(<a class="type" href="../specs/type.Index.html" title="type specs::Index">Index</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/flagged.rs.html#89-95' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Clean the storage given a check to figure out if an index is valid or not. Allows us to safely drop the storage. <a href="../specs/trait.UnprotectedStorage.html#tymethod.clean">Read more</a></p>
+</div><h4 id='method.get' class="method"><span id='get.v' class='invisible'><code>unsafe fn <a href='../specs/trait.UnprotectedStorage.html#tymethod.get' class='fnname'>get</a>(&amp;self, id: <a class="type" href="../specs/type.Index.html" title="type specs::Index">Index</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>C</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/flagged.rs.html#97-99' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Tries reading the data associated with an <code>Index</code>. This is unsafe because the external set used to protect this storage is absent. <a href="../specs/trait.UnprotectedStorage.html#tymethod.get">Read more</a></p>
+</div><h4 id='method.get_mut' class="method"><span id='get_mut.v' class='invisible'><code>unsafe fn <a href='../specs/trait.UnprotectedStorage.html#tymethod.get_mut' class='fnname'>get_mut</a>(&amp;mut self, id: <a class="type" href="../specs/type.Index.html" title="type specs::Index">Index</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;mut </a>C</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/flagged.rs.html#101-105' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Tries mutating the data associated with an <code>Index</code>. This is unsafe because the external set used to protect this storage is absent. <a href="../specs/trait.UnprotectedStorage.html#tymethod.get_mut">Read more</a></p>
+</div><h4 id='method.insert' class="method"><span id='insert.v' class='invisible'><code>unsafe fn <a href='../specs/trait.UnprotectedStorage.html#tymethod.insert' class='fnname'>insert</a>(&amp;mut self, id: <a class="type" href="../specs/type.Index.html" title="type specs::Index">Index</a>, comp: C)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/flagged.rs.html#107-110' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Inserts new data for a given <code>Index</code>.</p>
+</div><h4 id='method.remove' class="method"><span id='remove.v' class='invisible'><code>unsafe fn <a href='../specs/trait.UnprotectedStorage.html#tymethod.remove' class='fnname'>remove</a>(&amp;mut self, id: <a class="type" href="../specs/type.Index.html" title="type specs::Index">Index</a>) -&gt; C</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/flagged.rs.html#112-115' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Removes the data associated with an <code>Index</code>.</p>
+</div></div><h3 id='impl-Join' class='impl'><span class='in-band'><code>impl&lt;'a, C, T:&nbsp;<a class="trait" href="../specs/trait.UnprotectedStorage.html" title="trait specs::UnprotectedStorage">UnprotectedStorage</a>&lt;C&gt;&gt; <a class="trait" href="../specs/trait.Join.html" title="trait specs::Join">Join</a> for &amp;'a <a class="struct" href="../specs/struct.FlaggedStorage.html" title="struct specs::FlaggedStorage">FlaggedStorage</a>&lt;C, T&gt;</code><a href='#impl-Join' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/flagged.rs.html#140-152' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Type' class="type"><span id='Type.t' class='invisible'><code>type <a href='../specs/trait.Join.html#associatedtype.Type' class="type">Type</a> = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'a </a>C</code></span></h4>
+<div class='docblock'><p>Type of joined components.</p>
+</div><h4 id='associatedtype.Value' class="type"><span id='Value.t' class='invisible'><code>type <a href='../specs/trait.Join.html#associatedtype.Value' class="type">Value</a> = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'a </a>T</code></span></h4>
+<div class='docblock'><p>Type of joined storages.</p>
+</div><h4 id='associatedtype.Mask' class="type"><span id='Mask.t' class='invisible'><code>type <a href='../specs/trait.Join.html#associatedtype.Mask' class="type">Mask</a> = &amp;'a <a class="struct" href="../hibitset/struct.BitSet.html" title="struct hibitset::BitSet">BitSet</a></code></span></h4>
+<div class='docblock'><p>Type of joined bit mask.</p>
+</div><h4 id='method.open' class="method"><span id='open.v' class='invisible'><code>fn <a href='../specs/trait.Join.html#tymethod.open' class='fnname'>open</a>(self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>Self::<a class="type" href="../specs/trait.Join.html#associatedtype.Mask" title="type specs::Join::Mask">Mask</a>, Self::<a class="type" href="../specs/trait.Join.html#associatedtype.Value" title="type specs::Join::Value">Value</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/flagged.rs.html#145-147' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Open this join by returning the mask and the storages.</p>
+</div><h4 id='method.get-1' class="method"><span id='get.v-1' class='invisible'><code>unsafe fn <a href='../specs/trait.Join.html#tymethod.get' class='fnname'>get</a>(v: &amp;mut Self::<a class="type" href="../specs/trait.Join.html#associatedtype.Value" title="type specs::Join::Value">Value</a>, id: <a class="type" href="../specs/type.Index.html" title="type specs::Index">Index</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'a </a>C</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/flagged.rs.html#149-151' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get a joined component value by a given index.</p>
+</div><h4 id='method.join' class="method"><span id='join.v' class='invisible'><code>fn <a href='../specs/trait.Join.html#method.join' class='fnname'>join</a>(self) -&gt; <a class="struct" href="../specs/struct.JoinIter.html" title="struct specs::JoinIter">JoinIter</a>&lt;Self&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/join.rs.html#78-83' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Create a joined iterator over the contents.</p>
+</div></div><h3 id='impl-Join-1' class='impl'><span class='in-band'><code>impl&lt;'a, C, T:&nbsp;<a class="trait" href="../specs/trait.UnprotectedStorage.html" title="trait specs::UnprotectedStorage">UnprotectedStorage</a>&lt;C&gt;&gt; <a class="trait" href="../specs/trait.Join.html" title="trait specs::Join">Join</a> for &amp;'a mut <a class="struct" href="../specs/struct.FlaggedStorage.html" title="struct specs::FlaggedStorage">FlaggedStorage</a>&lt;C, T&gt;</code><a href='#impl-Join-1' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/flagged.rs.html#154-168' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Type-1' class="type"><span id='Type.t-1' class='invisible'><code>type <a href='../specs/trait.Join.html#associatedtype.Type' class="type">Type</a> = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'a mut </a>C</code></span></h4>
+<div class='docblock'><p>Type of joined components.</p>
+</div><h4 id='associatedtype.Value-1' class="type"><span id='Value.t-1' class='invisible'><code>type <a href='../specs/trait.Join.html#associatedtype.Value' class="type">Value</a> = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'a mut </a>T</code></span></h4>
+<div class='docblock'><p>Type of joined storages.</p>
+</div><h4 id='associatedtype.Mask-1' class="type"><span id='Mask.t-1' class='invisible'><code>type <a href='../specs/trait.Join.html#associatedtype.Mask' class="type">Mask</a> = &amp;'a <a class="struct" href="../hibitset/struct.BitSet.html" title="struct hibitset::BitSet">BitSet</a></code></span></h4>
+<div class='docblock'><p>Type of joined bit mask.</p>
+</div><h4 id='method.open-1' class="method"><span id='open.v-1' class='invisible'><code>fn <a href='../specs/trait.Join.html#tymethod.open' class='fnname'>open</a>(self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>Self::<a class="type" href="../specs/trait.Join.html#associatedtype.Mask" title="type specs::Join::Mask">Mask</a>, Self::<a class="type" href="../specs/trait.Join.html#associatedtype.Value" title="type specs::Join::Value">Value</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/flagged.rs.html#159-161' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Open this join by returning the mask and the storages.</p>
+</div><h4 id='method.get-2' class="method"><span id='get.v-2' class='invisible'><code>unsafe fn <a href='../specs/trait.Join.html#tymethod.get' class='fnname'>get</a>(v: &amp;mut Self::<a class="type" href="../specs/trait.Join.html#associatedtype.Value" title="type specs::Join::Value">Value</a>, id: <a class="type" href="../specs/type.Index.html" title="type specs::Index">Index</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'a mut </a>C</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/flagged.rs.html#163-167' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get a joined component value by a given index.</p>
+</div><h4 id='method.join-1' class="method"><span id='join.v-1' class='invisible'><code>fn <a href='../specs/trait.Join.html#method.join' class='fnname'>join</a>(self) -&gt; <a class="struct" href="../specs/struct.JoinIter.html" title="struct specs::JoinIter">JoinIter</a>&lt;Self&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/join.rs.html#78-83' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Create a joined iterator over the contents.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "specs";
+    </script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

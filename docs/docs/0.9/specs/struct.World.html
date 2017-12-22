@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `World` struct in crate `specs`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, World">
+
+    <title>specs::World - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Struct World</p><div class="block items"><ul><li><a href="#fields">Fields</a></li><li><a href="#methods">Methods</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='index.html'>specs</a></p><script>window.sidebarCurrent = {name: 'World', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>specs</a>::<wbr><a class="struct" href=''>World</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/specs/world.rs.html#571-575' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct World {
+    pub res: <a class="struct" href="../shred/res/struct.Resources.html" title="struct shred::res::Resources">Resources</a>,
+    // some fields omitted
+}</pre><div class='docblock'><p>The <code>World</code> struct contains the component storages and
+other resources.</p>
+
+<p>Many methods take <code>&amp;self</code> which works because everything
+is stored with <strong>interior mutability</strong>. In case you violate
+the borrowing rules of Rust (multiple reads xor one write),
+you will get a panic.</p>
+
+<h1 id='component--resources-ids' class='section-header'><a href='#component--resources-ids'>Component / Resources ids</a></h1>
+<p>Components and resources may, in addition to their type, be identified
+by an id of type <code>usize</code>. The convenience methods dealing
+with components assume that it&#39;s <code>0</code>.</p>
+
+<p>If a system attempts to access a component/resource that has not been
+registered/added, it will panic when run. Add all components with
+<code>World::register</code> before running any systems. Also add all resources
+with <code>World::add_resource</code>.</p>
+</div><h2 id='fields' class='fields small-section-header'>
+                       Fields<a href='#fields' class='anchor'></a></h2><span id="structfield.res" class="structfield small-section-header">
+                           <a href="#structfield.res" class="anchor field"></a>
+                           <span id="res.v" class='invisible'>
+                           <code>res: <a class="struct" href="../shred/res/struct.Resources.html" title="struct shred::res::Resources">Resources</a></code>
+                           </span></span><div class='docblock'><p>The resources used for this world.</p>
+</div>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl <a class="struct" href="../specs/struct.World.html" title="struct specs::World">World</a></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#577-829' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>pub fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class="struct" href="../specs/struct.World.html" title="struct specs::World">World</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#579-581' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Creates a new empty <code>World</code>.</p>
+</div><h4 id='method.register' class="method"><span id='register.v' class='invisible'><code>pub fn <a href='#method.register' class='fnname'>register</a>&lt;T:&nbsp;<a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a>&gt;(&amp;mut self)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#590-592' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Registers a new component.</p>
+
+<p>Calls <code>register_with_id</code> with id <code>0</code>, which
+is the default for component ids.</p>
+
+<p>Does nothing if the component was already
+registered.</p>
+</div><h4 id='method.register_with_id' class="method"><span id='register_with_id.v' class='invisible'><code>pub fn <a href='#method.register_with_id' class='fnname'>register_with_id</a>&lt;T:&nbsp;<a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a>&gt;(&amp;mut self, id: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#598-610' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Registers a new component with a given id.</p>
+
+<p>Does nothing if the component was already
+registered.</p>
+</div><h4 id='method.add_resource' class="method"><span id='add_resource.v' class='invisible'><code>pub fn <a href='#method.add_resource' class='fnname'>add_resource</a>&lt;T:&nbsp;<a class="trait" href="../shred/res/trait.Resource.html" title="trait shred::res::Resource">Resource</a>&gt;(&amp;mut self, res: T)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#615-617' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Adds a resource with the default ID (<code>0</code>).</p>
+
+<p>If the resource already exists it will be overwritten.</p>
+</div><h4 id='method.add_resource_with_id' class="method"><span id='add_resource_with_id.v' class='invisible'><code>pub fn <a href='#method.add_resource_with_id' class='fnname'>add_resource_with_id</a>&lt;T:&nbsp;<a class="trait" href="../shred/res/trait.Resource.html" title="trait shred::res::Resource">Resource</a>&gt;(&amp;mut self, res: T, id: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#622-630' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Adds a resource with a given ID.</p>
+
+<p>If the resource already exists it will be overwritten.</p>
+</div><h4 id='method.read' class="method"><span id='read.v' class='invisible'><code>pub fn <a href='#method.read' class='fnname'>read</a>&lt;T:&nbsp;<a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a>&gt;(&amp;self) -&gt; <a class="type" href="../specs/type.ReadStorage.html" title="type specs::ReadStorage">ReadStorage</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#640-642' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Fetches a component&#39;s storage with the default id for reading.</p>
+
+<p>Convenience method for <code>read_with_id</code>, using the default component
+id (<code>0</code>).</p>
+
+<h1 id='panics' class='section-header'><a href='#panics'>Panics</a></h1>
+<p>Panics if it is already borrowed mutably.</p>
+</div><h4 id='method.write' class="method"><span id='write.v' class='invisible'><code>pub fn <a href='#method.write' class='fnname'>write</a>&lt;T:&nbsp;<a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a>&gt;(&amp;self) -&gt; <a class="type" href="../specs/type.WriteStorage.html" title="type specs::WriteStorage">WriteStorage</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#652-654' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Fetches a component&#39;s storage with the default id for writing.</p>
+
+<p>Convenience method for <code>write_with_id</code>, using the default component
+id (<code>0</code>).</p>
+
+<h1 id='panics-1' class='section-header'><a href='#panics-1'>Panics</a></h1>
+<p>Panics if it is already borrowed.</p>
+</div><h4 id='method.read_with_id' class="method"><span id='read_with_id.v' class='invisible'><code>pub fn <a href='#method.read_with_id' class='fnname'>read_with_id</a>&lt;T:&nbsp;<a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a>&gt;(&amp;self, id: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="type" href="../specs/type.ReadStorage.html" title="type specs::ReadStorage">ReadStorage</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#662-667' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Fetches a component&#39;s storage with a specified id for reading.</p>
+
+<h1 id='panics-2' class='section-header'><a href='#panics-2'>Panics</a></h1>
+<p>Panics if it is already borrowed mutably.
+Also panics if the component is not registered with <code>World::register</code>.</p>
+</div><h4 id='method.write_with_id' class="method"><span id='write_with_id.v' class='invisible'><code>pub fn <a href='#method.write_with_id' class='fnname'>write_with_id</a>&lt;T:&nbsp;<a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a>&gt;(&amp;self, id: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="type" href="../specs/type.WriteStorage.html" title="type specs::WriteStorage">WriteStorage</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#675-680' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Fetches a component&#39;s storage with a specified id for writing.</p>
+
+<h1 id='panics-3' class='section-header'><a href='#panics-3'>Panics</a></h1>
+<p>Panics if it is already borrowed.
+Also panics if the component is not registered with <code>World::register</code>.</p>
+</div><h4 id='method.read_resource_with_id' class="method"><span id='read_resource_with_id.v' class='invisible'><code>pub fn <a href='#method.read_resource_with_id' class='fnname'>read_resource_with_id</a>&lt;T:&nbsp;<a class="trait" href="../shred/res/trait.Resource.html" title="trait shred::res::Resource">Resource</a>&gt;(&amp;self, id: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="struct" href="../specs/struct.Fetch.html" title="struct specs::Fetch">Fetch</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#687-689' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Fetches a resource with a specified id for reading.</p>
+
+<h1 id='panics-4' class='section-header'><a href='#panics-4'>Panics</a></h1>
+<p>Panics if it is already borrowed mutably.</p>
+</div><h4 id='method.write_resource_with_id' class="method"><span id='write_resource_with_id.v' class='invisible'><code>pub fn <a href='#method.write_resource_with_id' class='fnname'>write_resource_with_id</a>&lt;T:&nbsp;<a class="trait" href="../shred/res/trait.Resource.html" title="trait shred::res::Resource">Resource</a>&gt;(&amp;self, id: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="struct" href="../specs/struct.FetchMut.html" title="struct specs::FetchMut">FetchMut</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#696-698' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Fetches a resource with a specified id for writing.</p>
+
+<h1 id='panics-5' class='section-header'><a href='#panics-5'>Panics</a></h1>
+<p>Panics if it is already borrowed.</p>
+</div><h4 id='method.read_resource' class="method"><span id='read_resource.v' class='invisible'><code>pub fn <a href='#method.read_resource' class='fnname'>read_resource</a>&lt;T:&nbsp;<a class="trait" href="../shred/res/trait.Resource.html" title="trait shred::res::Resource">Resource</a>&gt;(&amp;self) -&gt; <a class="struct" href="../specs/struct.Fetch.html" title="struct specs::Fetch">Fetch</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#708-710' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Fetches a resource with the default id for reading.</p>
+
+<p>Convenience method for <code>read_resource_with_id</code>, using the default component
+id (<code>0</code>).</p>
+
+<h1 id='panics-6' class='section-header'><a href='#panics-6'>Panics</a></h1>
+<p>Panics if it is already borrowed mutably.</p>
+</div><h4 id='method.write_resource' class="method"><span id='write_resource.v' class='invisible'><code>pub fn <a href='#method.write_resource' class='fnname'>write_resource</a>&lt;T:&nbsp;<a class="trait" href="../shred/res/trait.Resource.html" title="trait shred::res::Resource">Resource</a>&gt;(&amp;self) -&gt; <a class="struct" href="../specs/struct.FetchMut.html" title="struct specs::FetchMut">FetchMut</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#720-722' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Fetches a resource with the default id for writing.</p>
+
+<p>Convenience method for <code>write_resource_with_id</code>, using the default component
+id (<code>0</code>).</p>
+
+<h1 id='panics-7' class='section-header'><a href='#panics-7'>Panics</a></h1>
+<p>Panics if it is already borrowed.</p>
+</div><h4 id='method.entities' class="method"><span id='entities.v' class='invisible'><code>pub fn <a href='#method.entities' class='fnname'>entities</a>(&amp;self) -&gt; <a class="struct" href="../specs/struct.Fetch.html" title="struct specs::Fetch">Fetch</a>&lt;<a class="struct" href="../specs/struct.EntitiesRes.html" title="struct specs::EntitiesRes">EntitiesRes</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#729-731' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Convenience method for fetching entities.</p>
+
+<p>Creation and deletion of entities with the <code>Entities</code> struct
+are atomically, so the actual changes will be applied
+with the next call to <code>maintain()</code>.</p>
+</div><h4 id='method.create_entity' class="method"><span id='create_entity.v' class='invisible'><code>pub fn <a href='#method.create_entity' class='fnname'>create_entity</a>(&amp;mut self) -&gt; <a class="struct" href="../specs/struct.EntityBuilder.html" title="struct specs::EntityBuilder">EntityBuilder</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#740-747' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Allows building an entity with its
+components.</p>
+</div><h4 id='method.create_iter' class="method"><span id='create_iter.v' class='invisible'><code>pub fn <a href='#method.create_iter' class='fnname'>create_iter</a>(&amp;mut self) -&gt; <a class="struct" href="../specs/struct.CreateIter.html" title="struct specs::CreateIter">CreateIter</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#763-765' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns an iterator for entity creation.
+This makes it easy to create a whole collection
+of them.</p>
+
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">specs</span>::<span class="ident">World</span>;
+
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">world</span> <span class="op">=</span> <span class="ident">World</span>::<span class="ident">new</span>();
+<span class="kw">let</span> <span class="ident">five_entities</span>: <span class="ident">Vec</span><span class="op">&lt;</span>_<span class="op">&gt;</span> <span class="op">=</span> <span class="ident">world</span>.<span class="ident">create_iter</span>().<span class="ident">take</span>(<span class="number">5</span>).<span class="ident">collect</span>();</pre>
+</div><h4 id='method.delete_entity' class="method"><span id='delete_entity.v' class='invisible'><code>pub fn <a href='#method.delete_entity' class='fnname'>delete_entity</a>(&amp;mut self, entity: <a class="struct" href="../specs/struct.Entity.html" title="struct specs::Entity">Entity</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#768-770' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Deletes an entity and its components.</p>
+</div><h4 id='method.delete_entities' class="method"><span id='delete_entities.v' class='invisible'><code>pub fn <a href='#method.delete_entities' class='fnname'>delete_entities</a>(&amp;mut self, delete: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="struct" href="../specs/struct.Entity.html" title="struct specs::Entity">Entity</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#773-776' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Deletes the specified entities and their components.</p>
+</div><h4 id='method.is_alive' class="method"><span id='is_alive.v' class='invisible'><code>pub fn <a href='#method.is_alive' class='fnname'>is_alive</a>(&amp;self, e: <a class="struct" href="../specs/struct.Entity.html" title="struct specs::Entity">Entity</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#792-801' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Checks if an entity is alive.
+Please note that atomically created or deleted entities
+(the ones created / deleted with the <code>Entities</code> struct)
+are not handled by this method. Therefore, you
+should have called <code>maintain()</code> before using this
+method.</p>
+
+<p>If you want to get this functionality before a <code>maintain()</code>,
+you are most likely in a system; from there, just access the
+<code>Entities</code> resource and call the <code>is_alive</code> method.</p>
+
+<h1 id='panics-8' class='section-header'><a href='#panics-8'>Panics</a></h1>
+<p>Panics if generation is dead.</p>
+</div><h4 id='method.maintain' class="method"><span id='maintain.v' class='invisible'><code>pub fn <a href='#method.maintain' class='fnname'>maintain</a>(&amp;mut self)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#808-818' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Merges in the appendix, recording all the dynamically created
+and deleted entities into the persistent generations vector.
+Also removes all the abandoned components.</p>
+
+<p>Additionally, <code>LazyUpdate</code> will be merged.</p>
+</div></div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-Default' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html" title="trait core::default::Default">Default</a> for <a class="struct" href="../specs/struct.World.html" title="struct specs::World">World</a></code><a href='#impl-Default' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#831-842' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.default' class="method"><span id='default.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default' class='fnname'>default</a>() -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#832-841' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns the &quot;default value&quot; for a type. <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default">Read more</a></p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "specs";
+    </script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

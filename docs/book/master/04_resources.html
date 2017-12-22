@@ -1,0 +1,175 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Resources - The Specs Book</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="Introduction into ECS and the Specs API.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="01_intro.html"><strong>1.</strong> Introduction</a></li><li><a href="02_hello_world.html"><strong>2.</strong> Hello World</a></li><li><a href="03_dispatcher.html"><strong>3.</strong> Dispatcher</a></li><li><a href="04_resources.html" class="active"><strong>4.</strong> Resources</a></li><li><a href="05_storages.html"><strong>5.</strong> Storages</a></li><li><a href="06_system_data.html"><strong>6.</strong> System Data</a></li><li><a href="07_parallel_join.html"><strong>7.</strong> Parallel Join</a></li><li><a href="08_rendering.html"><strong>8.</strong> Rendering</a></li><li><strong>9.</strong> Building a game with Specs</li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title">The Specs Book</h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="04_resources.html#resources" id="resources"><h1>Resources</h1></a>
+<p>This (short) chapter will explain the concept of resources, data
+which is shared between systems.</p>
+<p>First of all, when would you need resources? There's actually a great
+example in <a href="./03_dispatcher.html">chapter 3</a>, where we just faked the delta time when applying
+the velocity. Let's see how we can do this the right way.</p>
+<pre><code class="language-rust ignore">struct DeltaTime(f32);
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> In practice you may want to use <code>std::time::Duration</code> instead,
+because you shouldn't use <code>f32</code>s for durations in an actual game, because
+they're not precise enough.</p>
+</blockquote>
+<p>Adding this resource to our world is pretty easy:</p>
+<pre><code class="language-rust ignore">world.add_resource(DeltaTime(0.05)); // Let's use some start value
+</code></pre>
+<p>To update the delta time, just use</p>
+<pre><code class="language-rust ignore">let mut delta = world.write_resource::&lt;DeltaTime&gt;();
+*delta = DeltaTime(0.04);
+</code></pre>
+<a class="header" href="04_resources.html#accessing-resources-from-a-system" id="accessing-resources-from-a-system"><h2>Accessing resources from a system</h2></a>
+<p>As you might have guessed, there's a type implementing system data
+specifically for resources. It's called <code>Fetch</code> (or <code>FetchMut</code> for
+write access).</p>
+<p>So we can now rewrite our system:</p>
+<pre><code class="language-rust ignore">use specs::{Fetch, ReadStorage, System, WriteStorage};
+
+struct UpdatePos;
+
+impl&lt;'a&gt; System&lt;'a&gt; for UpdatePos {
+    type SystemData = (Fetch&lt;'a, DeltaTime&gt;,
+                       ReadStorage&lt;'a, Velocity&gt;,
+                       WriteStorage&lt;'a, Position&gt;);
+
+    fn run(&amp;mut self, data: Self::SystemData) {
+        let (delta, vel, mut pos) = data;
+
+        // `Fetch` implements `Deref`, so it
+        // coerces to `&amp;DeltaTime`.
+        let delta = delta.0;
+
+        for (vel, pos) in (&amp;vel, &amp;mut pos).join() {
+            pos.x += vel.x * delta;
+            pos.y += vel.y * delta;
+        }
+    }
+}
+</code></pre>
+<p>Note that all resources that a system accesses must be registered with
+<code>world.add_resource(resource)</code> before that system is run, or you will get a
+panic.</p>
+<p>For more information on <code>SystemData</code>, see <a href="./06_system_data.html">the system data chapter</a>.</p>
+<hr />
+<p>In <a href="05_storages.html">the next chapter</a>, you will learn about the different storages
+and when to use which one.</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="03_dispatcher.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="05_storages.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="03_dispatcher.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="05_storages.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `MarkerAllocator` trait in crate `specs`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, MarkerAllocator">
+
+    <title>specs::saveload::MarkerAllocator - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc trait">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Trait MarkerAllocator</p><div class="block items"><ul><li><a href="#required-methods">Required Methods</a></li><li><a href="#provided-methods">Provided Methods</a></li><li><a href="#implementors">Implementors</a></li></ul></div><p class='location'><a href='../index.html'>specs</a>::<wbr><a href='index.html'>saveload</a></p><script>window.sidebarCurrent = {name: 'MarkerAllocator', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>specs</a>::<wbr><a href='index.html'>saveload</a>::<wbr><a class="trait" href=''>MarkerAllocator</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/specs/saveload/marker.rs.html#162-208' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait MarkerAllocator&lt;M:&nbsp;<a class="trait" href="../../specs/saveload/trait.Marker.html" title="trait specs::saveload::Marker">Marker</a>&gt;: <a class="trait" href="../../shred/res/trait.Resource.html" title="trait shred::res::Resource">Resource</a> {
+    fn <a href='#tymethod.allocate' class='fnname'>allocate</a>(&amp;mut self, entity: <a class="struct" href="../../specs/struct.Entity.html" title="struct specs::Entity">Entity</a>, id: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;M::<a class="type" href="../../specs/saveload/trait.Marker.html#associatedtype.Identifier" title="type specs::saveload::Marker::Identifier">Identifier</a>&gt;) -&gt; M;
+<div class='item-spacer'></div>    fn <a href='#tymethod.get' class='fnname'>get</a>(&amp;self, id: M::<a class="type" href="../../specs/saveload/trait.Marker.html#associatedtype.Identifier" title="type specs::saveload::Marker::Identifier">Identifier</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../specs/struct.Entity.html" title="struct specs::Entity">Entity</a>&gt;;
+
+    fn <a href='#method.mark' class='fnname'>mark</a>&lt;'a&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;entity: <a class="struct" href="../../specs/struct.Entity.html" title="struct specs::Entity">Entity</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;storage: &amp;mut <a class="type" href="../../specs/type.WriteStorage.html" title="type specs::WriteStorage">WriteStorage</a>&lt;'a, M&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>M, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.get_marked' class='fnname'>get_marked</a>&lt;'a&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id: M::<a class="type" href="../../specs/saveload/trait.Marker.html#associatedtype.Identifier" title="type specs::saveload::Marker::Identifier">Identifier</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;entities: &amp;<a class="type" href="../../specs/type.Entities.html" title="type specs::Entities">Entities</a>&lt;'a&gt;, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;storage: &amp;mut <a class="type" href="../../specs/type.WriteStorage.html" title="type specs::WriteStorage">WriteStorage</a>&lt;'a, M&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;) -&gt; <a class="struct" href="../../specs/struct.Entity.html" title="struct specs::Entity">Entity</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.maintain' class='fnname'>maintain</a>&lt;'a&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_entities: &amp;<a class="type" href="../../specs/type.Entities.html" title="type specs::Entities">Entities</a>&lt;'a&gt;, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_storage: &amp;<a class="type" href="../../specs/type.ReadStorage.html" title="type specs::ReadStorage">ReadStorage</a>&lt;'a, M&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;) { ... }
+}</pre><div class='docblock'><p>This allocator is used with the <code>Marker</code> trait.
+It provides method for allocation new <code>Marker</code>s.
+It should also provide a <code>Marker -&gt; Entity</code> mapping.
+The <code>maintain</code> method can be implemented for cleanup and actualization.
+See docs for <code>Marker</code> for an example.</p>
+</div>
+            <h2 id='required-methods' class='small-section-header'>
+              Required Methods<a href='#required-methods' class='anchor'></a>
+            </h2>
+            <div class='methods'>
+        <h3 id='tymethod.allocate' class='method'><span id='allocate.v' class='invisible'><code>fn <a href='#tymethod.allocate' class='fnname'>allocate</a>(&amp;mut self, entity: <a class="struct" href="../../specs/struct.Entity.html" title="struct specs::Entity">Entity</a>, id: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;M::<a class="type" href="../../specs/saveload/trait.Marker.html#associatedtype.Identifier" title="type specs::saveload::Marker::Identifier">Identifier</a>&gt;) -&gt; M</code></span></h3><div class='docblock'><p>Allocate new <code>Marker</code>.
+Stores mapping <code>Marker</code> -&gt; <code>Entity</code>.
+If <em>id</em> argument is <code>Some(id)</code> then the new marker will have this <code>id</code>.
+Otherwise allocator creates marker with a new unique id.</p>
+</div><h3 id='tymethod.get' class='method'><span id='get.v' class='invisible'><code>fn <a href='#tymethod.get' class='fnname'>get</a>(&amp;self, id: M::<a class="type" href="../../specs/saveload/trait.Marker.html#associatedtype.Identifier" title="type specs::saveload::Marker::Identifier">Identifier</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../specs/struct.Entity.html" title="struct specs::Entity">Entity</a>&gt;</code></span></h3><div class='docblock'><p>Get <code>Entity</code> by <code>Marker::Identifier</code></p>
+</div></div>
+            <h2 id='provided-methods' class='small-section-header'>
+              Provided Methods<a href='#provided-methods' class='anchor'></a>
+            </h2>
+            <div class='methods'>
+        <h3 id='method.mark' class='method'><span id='mark.v' class='invisible'><code>fn <a href='#method.mark' class='fnname'>mark</a>&lt;'a&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;entity: <a class="struct" href="../../specs/struct.Entity.html" title="struct specs::Entity">Entity</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;storage: &amp;mut <a class="type" href="../../specs/type.WriteStorage.html" title="type specs::WriteStorage">WriteStorage</a>&lt;'a, M&gt;<br>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>M, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a></code></span></h3><div class='docblock'><p>Create new unique marker <code>M</code> and attach it to entity.
+Or get old marker if this entity is already marked.</p>
+</div><h3 id='method.get_marked' class='method'><span id='get_marked.v' class='invisible'><code>fn <a href='#method.get_marked' class='fnname'>get_marked</a>&lt;'a&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;id: M::<a class="type" href="../../specs/saveload/trait.Marker.html#associatedtype.Identifier" title="type specs::saveload::Marker::Identifier">Identifier</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;entities: &amp;<a class="type" href="../../specs/type.Entities.html" title="type specs::Entities">Entities</a>&lt;'a&gt;, <br>&nbsp;&nbsp;&nbsp;&nbsp;storage: &amp;mut <a class="type" href="../../specs/type.WriteStorage.html" title="type specs::WriteStorage">WriteStorage</a>&lt;'a, M&gt;<br>) -&gt; <a class="struct" href="../../specs/struct.Entity.html" title="struct specs::Entity">Entity</a></code></span></h3><div class='docblock'><p>Find an <code>Entity</code> by a <code>Marker</code> with same id
+and update <code>Marker</code> attached to the instance.
+Or create new entity and mark it.</p>
+</div><h3 id='method.maintain' class='method'><span id='maintain.v' class='invisible'><code>fn <a href='#method.maintain' class='fnname'>maintain</a>&lt;'a&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;_entities: &amp;<a class="type" href="../../specs/type.Entities.html" title="type specs::Entities">Entities</a>&lt;'a&gt;, <br>&nbsp;&nbsp;&nbsp;&nbsp;_storage: &amp;<a class="type" href="../../specs/type.ReadStorage.html" title="type specs::ReadStorage">ReadStorage</a>&lt;'a, M&gt;<br>)</code></span></h3><div class='docblock'><p>Maintain internal data. Cleanup if necessary.</p>
+</div></div>
+        <h2 id='implementors' class='small-section-header'>
+          Implementors<a href='#implementors' class='anchor'></a>
+        </h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><div class='out-of-band'><a class='srclink' href='../../src/specs/saveload/marker.rs.html#242-265' title='goto source code'>[src]</a></div><code>impl MarkerAllocator&lt;<a class="struct" href="../../specs/saveload/struct.U64Marker.html" title="struct specs::saveload::U64Marker">U64Marker</a>&gt; for <a class="struct" href="../../specs/saveload/struct.U64MarkerAllocator.html" title="struct specs::saveload::U64MarkerAllocator">U64MarkerAllocator</a></code></li>
+</ul><script type="text/javascript" async
+                         src="../../implementors/specs/saveload/trait.MarkerAllocator.js">
+                 </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "specs";
+    </script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `saveload` mod in crate `specs`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, saveload">
+
+    <title>specs::saveload - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc mod">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Module saveload</p><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'><a href='../index.html'>specs</a></p><script>window.sidebarCurrent = {name: 'saveload', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>specs</a>::<wbr><a class="mod" href=''>saveload</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/specs/saveload/mod.rs.html#1-40' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>Save and load entities from various formats with serde.</p>
+
+<h2 id='worldserialize--worlddeserialize' class='section-header'><a href='#worldserialize--worlddeserialize'><code>WorldSerialize</code> / <code>WorldDeserialize</code></a></h2>
+<p>This module provides two <code>SystemData</code> implementors:</p>
+
+<ul>
+<li><code>WorldSerialize</code> and</li>
+<li><code>WorldDeserialize</code></li>
+</ul>
+
+<p>Fetching those makes it very easy to serialize or deserialize
+components. However, be aware that you cannot fetch storages
+used in <code>WorldDeserialize</code> with the same system. E.g.
+<code>type SystemData = (WorldDeserialize&lt;&#39;a, Marker, MyError, (Pos, Vel)&gt;, WriteStorage&lt;&#39;a, Vel&gt;)</code>
+is not valid since both <code>WorldDeserialize</code> and <code>WriteStorage</code> would fetch the same component
+storage mutably.</p>
+
+<p><code>WorldSerialize</code> implements <code>Serialize</code> and <code>WorldDeserialize</code> implements
+<code>DeserializeSeed</code>, so serializing / deserializing should be very easy.</p>
+
+<h2 id='markers' class='section-header'><a href='#markers'>Markers</a></h2>
+<p>Let&#39;s start simple. Because you usually don&#39;t want to serialize everything, we use
+markers to say which entities we&#39;re interested in. However, these markers
+aren&#39;t just boolean values; we&#39;d like to also have id spaces which allow us
+to identify entities even though local ids are different. And the allocation
+of these ids is what <code>MarkerAllocator</code>s are responsible for. For an example,
+see the docs for the <code>Marker</code> trait.</p>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.U64Marker.html"
+                                  title='struct specs::saveload::U64Marker'>U64Marker</a></td>
+                           <td class='docblock-short'>
+                                <p>Basic marker implementation usable for saving and loading</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.U64MarkerAllocator.html"
+                                  title='struct specs::saveload::U64MarkerAllocator'>U64MarkerAllocator</a></td>
+                           <td class='docblock-short'>
+                                <p>Basic marker allocator</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.WorldDeserialize.html"
+                                  title='struct specs::saveload::WorldDeserialize'>WorldDeserialize</a></td>
+                           <td class='docblock-short'>
+                                <p>Struct which implements <code>DeserializeSeed</code> to allow serializing
+components from <code>World</code>.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.WorldSerialize.html"
+                                  title='struct specs::saveload::WorldSerialize'>WorldSerialize</a></td>
+                           <td class='docblock-short'>
+                                <p>This type implements <code>Serialize</code> so that it may be used in generic environment
+where <code>Serialize</code> implementation is expected.
+It may be constructed manually with <code>WorldSerialize::new</code>.
+Or fetched from <code>System</code> as <code>SystemData</code>.
+Serializes components in tuple <code>T</code> with marker <code>M</code>.</p>
+                           </td>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.Marker.html"
+                                  title='trait specs::saveload::Marker'>Marker</a></td>
+                           <td class='docblock-short'>
+                                <p>This trait should be implemented by a component which is going to be used as marker.
+This marker should be set to entity that should be serialized.
+If serialization strategy needs to set marker to some entity
+then it should use newly allocated marker from <code>Marker::Allocator</code>.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.MarkerAllocator.html"
+                                  title='trait specs::saveload::MarkerAllocator'>MarkerAllocator</a></td>
+                           <td class='docblock-short'>
+                                <p>This allocator is used with the <code>Marker</code> trait.
+It provides method for allocation new <code>Marker</code>s.
+It should also provide a <code>Marker -&gt; Entity</code> mapping.
+The <code>maintain</code> method can be implemented for cleanup and actualization.
+See docs for <code>Marker</code> for an example.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.SaveLoadComponent.html"
+                                  title='trait specs::saveload::SaveLoadComponent'>SaveLoadComponent</a></td>
+                           <td class='docblock-short'>
+                                <p>This trait should be implemented in order to allow component
+to be serializable with <code>SerializeSystem</code>.
+It is automatically implemented for all
+<code>Component + DeserializeOwned + Serialize + Copy</code></p>
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.deserialize.html"
+                                  title='fn specs::saveload::deserialize'>deserialize</a></td>
+                           <td class='docblock-short'>
+                                <p>Deserialize entities according to markers.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.serialize.html"
+                                  title='fn specs::saveload::serialize'>serialize</a></td>
+                           <td class='docblock-short'>
+                                <p>Serialize components from specified storages via <code>SerializableComponent::save</code>
+of all marked entities with provided serializer.
+When the component gets serialized with <code>SerializableComponent::save</code> method
+the closure passed in <code>ids</code> arguemnt returns <code>None</code> for unmarked <code>Entity</code>.
+In this case <code>SerializableComponent::save</code> may perform workaround (forget about <code>Entity</code>)
+or fail.
+So the function doesn&#39;t recursively mark referenced entities.
+For recursive marking see <code>serialize_recursive</code></p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.serialize_recursive.html"
+                                  title='fn specs::saveload::serialize_recursive'>serialize_recursive</a></td>
+                           <td class='docblock-short'>
+                                <p>Serialize components from specified storages via <code>SerializableComponent::save</code>
+of all marked entities with provided serializer.
+When the component gets serialized with <code>SerializableComponent::save</code> method
+the closure passed in <code>ids</code> argument marks unmarked <code>Entity</code> (the marker of which was requested)
+and it will get serialized recursively.
+For serializing without such recursion see <code>serialize</code> function.</p>
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "specs";
+    </script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

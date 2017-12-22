@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `LazyUpdate` struct in crate `specs`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, LazyUpdate">
+
+    <title>specs::LazyUpdate - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Struct LazyUpdate</p><div class="block items"><ul><li><a href="#methods">Methods</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='index.html'>specs</a></p><script>window.sidebarCurrent = {name: 'LazyUpdate', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>specs</a>::<wbr><a class="struct" href=''>LazyUpdate</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/specs/world.rs.html#390-392' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct LazyUpdate { /* fields omitted */ }</pre><div class='docblock'><p>Lazy updates can be used for world updates
+that need to borrow a lot of resources
+and as such should better be done at the end.
+They work lazily in the sense that they are
+dispatched when calling <code>world.maintain()</code>.
+Please note that the provided methods take <code>&amp;self</code>
+so there&#39;s no need to fetch <code>LazyUpdate</code> mutably.
+This resource is added to the world by default.</p>
+</div>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl <a class="struct" href="../specs/struct.LazyUpdate.html" title="struct specs::LazyUpdate">LazyUpdate</a></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#394-535' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.insert' class="method"><span id='insert.v' class='invisible'><code>pub fn <a href='#method.insert' class='fnname'>insert</a>&lt;C&gt;(&amp;self, e: <a class="struct" href="../specs/struct.Entity.html" title="struct specs::Entity">Entity</a>, c: C) <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;C: <a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#419-425' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Lazily inserts a component for an entity.</p>
+
+<h2 id='examples' class='section-header'><a href='#examples'>Examples</a></h2>
+<pre class="rust rust-example-rendered">
+<span class="kw">struct</span> <span class="ident">Pos</span>(<span class="ident">f32</span>, <span class="ident">f32</span>);
+
+<span class="kw">impl</span> <span class="ident">Component</span> <span class="kw">for</span> <span class="ident">Pos</span> {
+    <span class="kw">type</span> <span class="ident">Storage</span> <span class="op">=</span> <span class="ident">VecStorage</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>;
+}
+
+<span class="kw">struct</span> <span class="ident">InsertPos</span>;
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">System</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">InsertPos</span> {
+    <span class="kw">type</span> <span class="ident">SystemData</span> <span class="op">=</span> (<span class="ident">Entities</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">Fetch</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">LazyUpdate</span><span class="op">&gt;</span>);
+
+    <span class="kw">fn</span> <span class="ident">run</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, (<span class="ident">ent</span>, <span class="ident">lazy</span>): <span class="self">Self</span>::<span class="ident">SystemData</span>) {
+        <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">ent</span>.<span class="ident">create</span>();
+        <span class="ident">lazy</span>.<span class="ident">insert</span>(<span class="ident">a</span>, <span class="ident">Pos</span>(<span class="number">1.0</span>, <span class="number">1.0</span>));
+    }
+}</pre>
+</div><h4 id='method.insert_all' class="method"><span id='insert_all.v' class='invisible'><code>pub fn <a href='#method.insert_all' class='fnname'>insert_all</a>&lt;C, I&gt;(&amp;self, iter: I) <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;C: <a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;I: <a class="trait" href="https://doc.rust-lang.org/nightly/core/iter/traits/trait.IntoIterator.html" title="trait core::iter::traits::IntoIterator">IntoIterator</a>&lt;Item = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a><a class="struct" href="../specs/struct.Entity.html" title="struct specs::Entity">Entity</a>, C<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a>&gt; + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'static,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#453-464' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Lazily inserts components for entities.</p>
+
+<h2 id='examples-1' class='section-header'><a href='#examples-1'>Examples</a></h2>
+<pre class="rust rust-example-rendered">
+<span class="kw">struct</span> <span class="ident">Pos</span>(<span class="ident">f32</span>, <span class="ident">f32</span>);
+
+<span class="kw">impl</span> <span class="ident">Component</span> <span class="kw">for</span> <span class="ident">Pos</span> {
+    <span class="kw">type</span> <span class="ident">Storage</span> <span class="op">=</span> <span class="ident">VecStorage</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>;
+}
+
+<span class="kw">struct</span> <span class="ident">InsertPos</span>;
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">System</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">InsertPos</span> {
+    <span class="kw">type</span> <span class="ident">SystemData</span> <span class="op">=</span> (<span class="ident">Entities</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">Fetch</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">LazyUpdate</span><span class="op">&gt;</span>);
+
+    <span class="kw">fn</span> <span class="ident">run</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, (<span class="ident">ent</span>, <span class="ident">lazy</span>): <span class="self">Self</span>::<span class="ident">SystemData</span>) {
+        <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">ent</span>.<span class="ident">create</span>();
+        <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">ent</span>.<span class="ident">create</span>();
+
+        <span class="ident">lazy</span>.<span class="ident">insert_all</span>(<span class="macro">vec</span><span class="macro">!</span>[(<span class="ident">a</span>, <span class="ident">Pos</span>(<span class="number">3.0</span>, <span class="number">1.0</span>)), (<span class="ident">b</span>, <span class="ident">Pos</span>(<span class="number">0.0</span>, <span class="number">4.0</span>))]);
+    }
+}</pre>
+</div><h4 id='method.remove' class="method"><span id='remove.v' class='invisible'><code>pub fn <a href='#method.remove' class='fnname'>remove</a>&lt;C&gt;(&amp;self, e: <a class="struct" href="../specs/struct.Entity.html" title="struct specs::Entity">Entity</a>) <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;C: <a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#491-498' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Lazily removes a component.</p>
+
+<h2 id='examples-2' class='section-header'><a href='#examples-2'>Examples</a></h2>
+<pre class="rust rust-example-rendered">
+<span class="kw">struct</span> <span class="ident">Pos</span>;
+
+<span class="kw">impl</span> <span class="ident">Component</span> <span class="kw">for</span> <span class="ident">Pos</span> {
+    <span class="kw">type</span> <span class="ident">Storage</span> <span class="op">=</span> <span class="ident">VecStorage</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>;
+}
+
+<span class="kw">struct</span> <span class="ident">RemovePos</span>;
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">System</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RemovePos</span> {
+    <span class="kw">type</span> <span class="ident">SystemData</span> <span class="op">=</span> (<span class="ident">Entities</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">Fetch</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">LazyUpdate</span><span class="op">&gt;</span>);
+
+    <span class="kw">fn</span> <span class="ident">run</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, (<span class="ident">ent</span>, <span class="ident">lazy</span>): <span class="self">Self</span>::<span class="ident">SystemData</span>) {
+        <span class="kw">for</span> <span class="ident">entity</span> <span class="kw">in</span> <span class="ident">ent</span>.<span class="ident">join</span>() {
+            <span class="ident">lazy</span>.<span class="ident">remove</span>::<span class="op">&lt;</span><span class="ident">Pos</span><span class="op">&gt;</span>(<span class="ident">entity</span>);
+        }
+    }
+}</pre>
+</div><h4 id='method.execute' class="method"><span id='execute.v' class='invisible'><code>pub fn <a href='#method.execute' class='fnname'>execute</a>&lt;F&gt;(&amp;self, f: F) <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(&amp;<a class="struct" href="../specs/struct.World.html" title="struct specs::World">World</a>) + 'static + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#529-534' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Lazily executes a closure with world access.</p>
+
+<h2 id='examples-3' class='section-header'><a href='#examples-3'>Examples</a></h2>
+<pre class="rust rust-example-rendered">
+<span class="kw">struct</span> <span class="ident">Pos</span>;
+
+<span class="kw">impl</span> <span class="ident">Component</span> <span class="kw">for</span> <span class="ident">Pos</span> {
+    <span class="kw">type</span> <span class="ident">Storage</span> <span class="op">=</span> <span class="ident">VecStorage</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>;
+}
+
+<span class="kw">struct</span> <span class="ident">Execution</span>;
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">System</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Execution</span> {
+    <span class="kw">type</span> <span class="ident">SystemData</span> <span class="op">=</span> (<span class="ident">Entities</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">Fetch</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">LazyUpdate</span><span class="op">&gt;</span>);
+
+    <span class="kw">fn</span> <span class="ident">run</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, (<span class="ident">ent</span>, <span class="ident">lazy</span>): <span class="self">Self</span>::<span class="ident">SystemData</span>) {      
+        <span class="kw">for</span> <span class="ident">entity</span> <span class="kw">in</span> <span class="ident">ent</span>.<span class="ident">join</span>() {
+            <span class="ident">lazy</span>.<span class="ident">execute</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">world</span><span class="op">|</span> {
+                <span class="kw">if</span> <span class="ident">world</span>.<span class="ident">is_alive</span>(<span class="ident">entity</span>) {
+                    <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Entity {:?} is alive.&quot;</span>, <span class="ident">entity</span>);
+                }
+            });
+        }
+    }
+}</pre>
+</div></div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-Default' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html" title="trait core::default::Default">Default</a> for <a class="struct" href="../specs/struct.LazyUpdate.html" title="struct specs::LazyUpdate">LazyUpdate</a></code><a href='#impl-Default' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#537-544' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.default' class="method"><span id='default.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default' class='fnname'>default</a>() -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#538-543' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns the &quot;default value&quot; for a type. <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default">Read more</a></p>
+</div></div><h3 id='impl-Drop' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/drop/trait.Drop.html" title="trait core::ops::drop::Drop">Drop</a> for <a class="struct" href="../specs/struct.LazyUpdate.html" title="struct specs::LazyUpdate">LazyUpdate</a></code><a href='#impl-Drop' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#546-551' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.drop' class="method"><span id='drop.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/drop/trait.Drop.html#tymethod.drop' class='fnname'>drop</a>(&amp;mut self)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world.rs.html#547-550' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Executes the destructor for this type. <a href="https://doc.rust-lang.org/nightly/core/ops/drop/trait.Drop.html#tymethod.drop">Read more</a></p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "specs";
+    </script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

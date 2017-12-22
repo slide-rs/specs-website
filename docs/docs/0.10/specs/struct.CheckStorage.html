@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `CheckStorage` struct in crate `specs`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, CheckStorage">
+
+    <title>specs::CheckStorage - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Struct CheckStorage</p><div class="block items"><ul><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='index.html'>specs</a></p><script>window.sidebarCurrent = {name: 'CheckStorage', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>specs</a>::<wbr><a class="struct" href=''>CheckStorage</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/specs/storage/check.rs.html#14-18' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct CheckStorage&lt;'a, T, D&gt; { /* fields omitted */ }</pre><div class='docblock'><p>A storage type that iterates entities that have
+a particular component type, but does not return the
+component.</p>
+</div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-Join' class='impl'><span class='in-band'><code>impl&lt;'a, 'e, T, D&gt; <a class="trait" href="../specs/trait.Join.html" title="trait specs::Join">Join</a> for &amp;'a <a class="struct" href="../specs/struct.CheckStorage.html" title="struct specs::CheckStorage">CheckStorage</a>&lt;'e, T, D&gt;</code><a href='#impl-Join' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/check.rs.html#20-36' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Type' class="type"><span id='Type.t' class='invisible'><code>type <a href='../specs/trait.Join.html#associatedtype.Type' class="type">Type</a> = Entry&lt;'a, 'e, T, D&gt;</code></span></h4>
+<div class='docblock'><p>Type of joined components.</p>
+</div><h4 id='associatedtype.Value' class="type"><span id='Value.t' class='invisible'><code>type <a href='../specs/trait.Join.html#associatedtype.Value' class="type">Value</a> = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.pointer.html">*const </a><a class="struct" href="../specs/struct.Storage.html" title="struct specs::Storage">Storage</a>&lt;'e, T, D&gt;</code></span></h4>
+<div class='docblock'><p>Type of joined storages.</p>
+</div><h4 id='associatedtype.Mask' class="type"><span id='Mask.t' class='invisible'><code>type <a href='../specs/trait.Join.html#associatedtype.Mask' class="type">Mask</a> = &amp;'a <a class="struct" href="../hibitset/struct.BitSet.html" title="struct hibitset::BitSet">BitSet</a></code></span></h4>
+<div class='docblock'><p>Type of joined bit mask.</p>
+</div><h4 id='method.open' class="method"><span id='open.v' class='invisible'><code>fn <a href='../specs/trait.Join.html#tymethod.open' class='fnname'>open</a>(self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>Self::<a class="type" href="../specs/trait.Join.html#associatedtype.Mask" title="type specs::Join::Mask">Mask</a>, Self::<a class="type" href="../specs/trait.Join.html#associatedtype.Value" title="type specs::Join::Value">Value</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/check.rs.html#25-27' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Open this join by returning the mask and the storages.</p>
+</div><h4 id='method.get' class="method"><span id='get.v' class='invisible'><code>unsafe fn <a href='../specs/trait.Join.html#tymethod.get' class='fnname'>get</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;storage: &amp;mut <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.pointer.html">*const </a><a class="struct" href="../specs/struct.Storage.html" title="struct specs::Storage">Storage</a>&lt;'e, T, D&gt;, <br>&nbsp;&nbsp;&nbsp;&nbsp;id: <a class="type" href="../specs/type.Index.html" title="type specs::Index">Index</a><br>) -&gt; Entry&lt;'a, 'e, T, D&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/check.rs.html#29-35' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get a joined component value by a given index.</p>
+</div><h4 id='method.join' class="method"><span id='join.v' class='invisible'><code>fn <a href='../specs/trait.Join.html#method.join' class='fnname'>join</a>(self) -&gt; <a class="struct" href="../specs/struct.JoinIter.html" title="struct specs::JoinIter">JoinIter</a>&lt;Self&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/join.rs.html#77-81' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Create a joined iterator over the contents.</p>
+</div></div><h3 id='impl-Not' class='impl'><span class='in-band'><code>impl&lt;'a, 'e, T, D&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/bit/trait.Not.html" title="trait core::ops::bit::Not">Not</a> for &amp;'a <a class="struct" href="../specs/struct.CheckStorage.html" title="struct specs::CheckStorage">CheckStorage</a>&lt;'e, T, D&gt;</code><a href='#impl-Not' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/check.rs.html#38-43' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Output' class="type"><span id='Output.t' class='invisible'><code>type <a href='https://doc.rust-lang.org/nightly/core/ops/bit/trait.Not.html#associatedtype.Output' class="type">Output</a> = AntiStorage&lt;'a&gt;</code></span></h4>
+<div class='docblock'><p>The resulting type after applying the <code>!</code> operator.</p>
+</div><h4 id='method.not' class="method"><span id='not.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/bit/trait.Not.html#tymethod.not' class='fnname'>not</a>(self) -&gt; Self::<a class="type" href="https://doc.rust-lang.org/nightly/core/ops/bit/trait.Not.html#associatedtype.Output" title="type core::ops::bit::Not::Output">Output</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/check.rs.html#40-42' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Performs the unary <code>!</code> operation.</p>
+</div></div><h3 id='impl-DistinctStorage' class='impl'><span class='in-band'><code>impl&lt;'a, T, D&gt; <a class="trait" href="../specs/trait.DistinctStorage.html" title="trait specs::DistinctStorage">DistinctStorage</a> for <a class="struct" href="../specs/struct.CheckStorage.html" title="struct specs::CheckStorage">CheckStorage</a>&lt;'a, T, D&gt;</code><a href='#impl-DistinctStorage' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/check.rs.html#45' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "specs";
+    </script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Storage` struct in crate `specs`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Storage">
+
+    <title>specs::Storage - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Struct Storage</p><div class="block items"><ul><li><a href="#methods">Methods</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='index.html'>specs</a></p><script>window.sidebarCurrent = {name: 'Storage', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>specs</a>::<wbr><a class="struct" href=''>Storage</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/specs/storage/mod.rs.html#148-152' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Storage&lt;'e, T, D&gt; { /* fields omitted */ }</pre><div class='docblock'><p>A wrapper around the masked storage and the generations vector.
+Can be used for safe lookup of components, insertions and removes.
+This is what <code>World::read/write</code> fetches for the user.</p>
+</div>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl&lt;'e, T, D&gt; <a class="struct" href="../specs/struct.Storage.html" title="struct specs::Storage">Storage</a>&lt;'e, T, D&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;D: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html" title="trait core::ops::deref::Deref">Deref</a>&lt;Target = MaskedStorage&lt;T&gt;&gt;,&nbsp;</span></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/check.rs.html#67-99' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.check' class="method"><span id='check.v' class='invisible'><code>pub fn <a href='#method.check' class='fnname'>check</a>(&amp;self) -&gt; <a class="struct" href="../specs/struct.CheckStorage.html" title="struct specs::CheckStorage">CheckStorage</a>&lt;'e, T, D&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/check.rs.html#76-81' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns a struct that can iterate over the entities that have it
+but does not return the contents of the storage.</p>
+
+<p>Useful if you want to check if an entity has a component
+and then possibly get the component later on in the loop.</p>
+</div><h4 id='method.get_unchecked' class="method"><span id='get_unchecked.v' class='invisible'><code>pub fn <a href='#method.get_unchecked' class='fnname'>get_unchecked</a>&lt;'a&gt;(&amp;'a self, entry: &amp;'a Entry&lt;'a, 'e, T, D&gt;) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'a </a>T</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/check.rs.html#90-98' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Reads the data associated with the entry.</p>
+
+<p><code>Entry</code>s are returned from a <code>CheckStorage</code> to remove unnecessary checks.</p>
+
+<h1 id='panics' class='section-header'><a href='#panics'>Panics</a></h1>
+<p>Panics if the entry was retrieved from another storage.</p>
+</div></div><h3 id='impl-1' class='impl'><span class='in-band'><code>impl&lt;'e, T, D&gt; <a class="struct" href="../specs/struct.Storage.html" title="struct specs::Storage">Storage</a>&lt;'e, T, D&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;D: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.DerefMut.html" title="trait core::ops::deref::DerefMut">DerefMut</a>&lt;Target = MaskedStorage&lt;T&gt;&gt;,&nbsp;</span></code><a href='#impl-1' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/check.rs.html#102-118' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.get_mut_unchecked' class="method"><span id='get_mut_unchecked.v' class='invisible'><code>pub fn <a href='#method.get_mut_unchecked' class='fnname'>get_mut_unchecked</a>&lt;'a&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;'a mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;entry: &amp;'a mut Entry&lt;'a, 'e, T, D&gt;<br>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'a mut </a>T</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/check.rs.html#109-117' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Tries to mutate the data associated with an entry.</p>
+
+<p><code>Entry</code>s are returned from a <code>CheckStorage</code> to remove unnecessary checks.</p>
+</div></div><h3 id='impl-2' class='impl'><span class='in-band'><code>impl&lt;'e, T, D&gt; <a class="struct" href="../specs/struct.Storage.html" title="struct specs::Storage">Storage</a>&lt;'e, T, D&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a> + <a class="trait" href="../serde/de/trait.Deserialize.html" title="trait serde::de::Deserialize">Deserialize</a>&lt;'e&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;D: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.DerefMut.html" title="trait core::ops::deref::DerefMut">DerefMut</a>&lt;Target = MaskedStorage&lt;T&gt;&gt;,&nbsp;</span></code><a href='#impl-2' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/ser.rs.html#71-113' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.merge' class="method"><span id='merge.v' class='invisible'><code>pub fn <a href='#method.merge' class='fnname'>merge</a>&lt;'a&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;'a mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;entities: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'a [</a><a class="struct" href="../specs/struct.Entity.html" title="struct specs::Entity">Entity</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;packed: <a class="struct" href="../specs/struct.PackedData.html" title="struct specs::PackedData">PackedData</a>&lt;T&gt;<br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>, <a class="enum" href="../specs/enum.MergeError.html" title="enum specs::MergeError">MergeError</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/ser.rs.html#97-112' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Merges a list of components into the storage.</p>
+
+<p>The list of entities will be used as the base for the offsets of the packed data.</p>
+
+<p>e.g.
+ <code>rust,ignore let list = vec![Entity(0, 1), Entity(1, 1), Entity(2, 1)]; let packed = PackedData { offsets: [0, 2], components: [ ... ] }; storage.merge(&amp;list, packed);</code>
+ Would merge the components at offset 0 and 2, which would be <code>Entity(0, 1)</code> and
+ <code>Entity(2, 1)</code> while ignoring
+ <code>Entity(1, 1)</code>.</p>
+
+<p>Note:
+ The entity list should be at least the same size as the packed data. To make sure,
+ you can call <code>packed.pair_truncate(&amp;entities)</code>.
+ If the entity list is larger than the packed data then those entities are ignored.</p>
+
+<p>Packed data should also be sorted in ascending order of offsets.
+ If this is deserialized from data received from serializing a storage it will be
+ in ascending order.</p>
+</div></div><h3 id='impl-3' class='impl'><span class='in-band'><code>impl&lt;'e, T, D&gt; <a class="struct" href="../specs/struct.Storage.html" title="struct specs::Storage">Storage</a>&lt;'e, T, D&gt;</code><a href='#impl-3' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/mod.rs.html#154-163' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>pub fn <a href='#method.new' class='fnname'>new</a>(entities: <a class="struct" href="../specs/struct.Fetch.html" title="struct specs::Fetch">Fetch</a>&lt;'e, <a class="struct" href="../specs/struct.EntitiesRes.html" title="struct specs::EntitiesRes">EntitiesRes</a>&gt;, data: D) -&gt; <a class="struct" href="../specs/struct.Storage.html" title="struct specs::Storage">Storage</a>&lt;'e, T, D&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/mod.rs.html#156-162' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Create a new <code>Storage</code></p>
+</div></div><h3 id='impl-4' class='impl'><span class='in-band'><code>impl&lt;'e, T, D&gt; <a class="struct" href="../specs/struct.Storage.html" title="struct specs::Storage">Storage</a>&lt;'e, T, D&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;D: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html" title="trait core::ops::deref::Deref">Deref</a>&lt;Target = MaskedStorage&lt;T&gt;&gt;,&nbsp;</span></code><a href='#impl-4' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/mod.rs.html#165-177' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.get' class="method"><span id='get.v' class='invisible'><code>pub fn <a href='#method.get' class='fnname'>get</a>(&amp;self, e: <a class="struct" href="../specs/struct.Entity.html" title="struct specs::Entity">Entity</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/mod.rs.html#170-176' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Tries to read the data associated with an <code>Entity</code>.</p>
+</div></div><h3 id='impl-5' class='impl'><span class='in-band'><code>impl&lt;'e, T, D&gt; <a class="struct" href="../specs/struct.Storage.html" title="struct specs::Storage">Storage</a>&lt;'e, T, D&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;D: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.DerefMut.html" title="trait core::ops::deref::DerefMut">DerefMut</a>&lt;Target = MaskedStorage&lt;T&gt;&gt;,&nbsp;</span></code><a href='#impl-5' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/mod.rs.html#179-223' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.get_mut' class="method"><span id='get_mut.v' class='invisible'><code>pub fn <a href='#method.get_mut' class='fnname'>get_mut</a>(&amp;mut self, e: <a class="struct" href="../specs/struct.Entity.html" title="struct specs::Entity">Entity</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;mut </a>T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/mod.rs.html#184-190' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Tries to mutate the data associated with an <code>Entity</code>.</p>
+</div><h4 id='method.insert' class="method"><span id='insert.v' class='invisible'><code>pub fn <a href='#method.insert' class='fnname'>insert</a>(&amp;mut self, e: <a class="struct" href="../specs/struct.Entity.html" title="struct specs::Entity">Entity</a>, v: T) -&gt; <a class="enum" href="../specs/enum.InsertResult.html" title="enum specs::InsertResult">InsertResult</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/mod.rs.html#194-208' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Inserts new data for a given <code>Entity</code>.
+Returns the result of the operation as a <code>InsertResult&lt;T&gt;</code></p>
+</div><h4 id='method.remove' class="method"><span id='remove.v' class='invisible'><code>pub fn <a href='#method.remove' class='fnname'>remove</a>(&amp;mut self, e: <a class="struct" href="../specs/struct.Entity.html" title="struct specs::Entity">Entity</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/mod.rs.html#211-217' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Removes the data associated with an <code>Entity</code>.</p>
+</div><h4 id='method.clear' class="method"><span id='clear.v' class='invisible'><code>pub fn <a href='#method.clear' class='fnname'>clear</a>(&amp;mut self)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/mod.rs.html#220-222' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Clears the contents of the storage.</p>
+</div></div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-Serialize' class='impl'><span class='in-band'><code>impl&lt;'e, T, D&gt; <a class="trait" href="../serde/ser/trait.Serialize.html" title="trait serde::ser::Serialize">Serialize</a> for <a class="struct" href="../specs/struct.Storage.html" title="struct specs::Storage">Storage</a>&lt;'e, T, D&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a> + <a class="trait" href="../serde/ser/trait.Serialize.html" title="trait serde::ser::Serialize">Serialize</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;D: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html" title="trait core::ops::deref::Deref">Deref</a>&lt;Target = MaskedStorage&lt;T&gt;&gt;,&nbsp;</span></code><a href='#impl-Serialize' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/ser.rs.html#46-69' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.serialize' class="method"><span id='serialize.v' class='invisible'><code>fn <a href='../serde/ser/trait.Serialize.html#tymethod.serialize' class='fnname'>serialize</a>&lt;S:&nbsp;<a class="trait" href="../serde/ser/trait.Serializer.html" title="trait serde::ser::Serializer">Serializer</a>&gt;(&amp;self, serializer: S) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;S::<a class="type" href="../serde/ser/trait.Serializer.html#associatedtype.Ok" title="type serde::ser::Serializer::Ok">Ok</a>, S::<a class="type" href="../serde/ser/trait.Serializer.html#associatedtype.Error" title="type serde::ser::Serializer::Error">Error</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/ser.rs.html#50-68' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Serialize this value into the given Serde serializer. <a href="../serde/ser/trait.Serialize.html#tymethod.serialize">Read more</a></p>
+</div></div><h3 id='impl-DistinctStorage' class='impl'><span class='in-band'><code>impl&lt;'a, T:&nbsp;<a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a>, D&gt; <a class="trait" href="../specs/trait.DistinctStorage.html" title="trait specs::DistinctStorage">DistinctStorage</a> for <a class="struct" href="../specs/struct.Storage.html" title="struct specs::Storage">Storage</a>&lt;'a, T, D&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T::<a class="type" href="../specs/trait.Component.html#associatedtype.Storage" title="type specs::Component::Storage">Storage</a>: <a class="trait" href="../specs/trait.DistinctStorage.html" title="trait specs::DistinctStorage">DistinctStorage</a>,&nbsp;</span></code><a href='#impl-DistinctStorage' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/mod.rs.html#225-228' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 id='impl-Join' class='impl'><span class='in-band'><code>impl&lt;'a, 'e, T, D&gt; <a class="trait" href="../specs/trait.Join.html" title="trait specs::Join">Join</a> for &amp;'a <a class="struct" href="../specs/struct.Storage.html" title="struct specs::Storage">Storage</a>&lt;'e, T, D&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;D: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html" title="trait core::ops::deref::Deref">Deref</a>&lt;Target = MaskedStorage&lt;T&gt;&gt;,&nbsp;</span></code><a href='#impl-Join' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/mod.rs.html#230-245' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Type' class="type"><span id='Type.t' class='invisible'><code>type <a href='../specs/trait.Join.html#associatedtype.Type' class="type">Type</a> = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'a </a>T</code></span></h4>
+<div class='docblock'><p>Type of joined components.</p>
+</div><h4 id='associatedtype.Value' class="type"><span id='Value.t' class='invisible'><code>type <a href='../specs/trait.Join.html#associatedtype.Value' class="type">Value</a> = &amp;'a T::<a class="type" href="../specs/trait.Component.html#associatedtype.Storage" title="type specs::Component::Storage">Storage</a></code></span></h4>
+<div class='docblock'><p>Type of joined storages.</p>
+</div><h4 id='associatedtype.Mask' class="type"><span id='Mask.t' class='invisible'><code>type <a href='../specs/trait.Join.html#associatedtype.Mask' class="type">Mask</a> = &amp;'a <a class="struct" href="../hibitset/struct.BitSet.html" title="struct hibitset::BitSet">BitSet</a></code></span></h4>
+<div class='docblock'><p>Type of joined bit mask.</p>
+</div><h4 id='method.open' class="method"><span id='open.v' class='invisible'><code>fn <a href='../specs/trait.Join.html#tymethod.open' class='fnname'>open</a>(self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>Self::<a class="type" href="../specs/trait.Join.html#associatedtype.Mask" title="type specs::Join::Mask">Mask</a>, Self::<a class="type" href="../specs/trait.Join.html#associatedtype.Value" title="type specs::Join::Value">Value</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/mod.rs.html#238-240' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Open this join by returning the mask and the storages.</p>
+</div><h4 id='method.get-1' class="method"><span id='get.v-1' class='invisible'><code>unsafe fn <a href='../specs/trait.Join.html#tymethod.get' class='fnname'>get</a>(v: &amp;mut Self::<a class="type" href="../specs/trait.Join.html#associatedtype.Value" title="type specs::Join::Value">Value</a>, i: <a class="type" href="../specs/type.Index.html" title="type specs::Index">Index</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'a </a>T</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/mod.rs.html#242-244' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get a joined component value by a given index.</p>
+</div><h4 id='method.join' class="method"><span id='join.v' class='invisible'><code>fn <a href='../specs/trait.Join.html#method.join' class='fnname'>join</a>(self) -&gt; <a class="struct" href="../specs/struct.JoinIter.html" title="struct specs::JoinIter">JoinIter</a>&lt;Self&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/join.rs.html#77-81' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Create a joined iterator over the contents.</p>
+</div></div><h3 id='impl-Not' class='impl'><span class='in-band'><code>impl&lt;'a, 'e, T, D&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/bit/trait.Not.html" title="trait core::ops::bit::Not">Not</a> for &amp;'a <a class="struct" href="../specs/struct.Storage.html" title="struct specs::Storage">Storage</a>&lt;'e, T, D&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;D: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html" title="trait core::ops::deref::Deref">Deref</a>&lt;Target = MaskedStorage&lt;T&gt;&gt;,&nbsp;</span></code><a href='#impl-Not' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/mod.rs.html#247-256' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Output' class="type"><span id='Output.t' class='invisible'><code>type <a href='https://doc.rust-lang.org/nightly/core/ops/bit/trait.Not.html#associatedtype.Output' class="type">Output</a> = AntiStorage&lt;'a&gt;</code></span></h4>
+<div class='docblock'><p>The resulting type after applying the <code>!</code> operator.</p>
+</div><h4 id='method.not' class="method"><span id='not.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/bit/trait.Not.html#tymethod.not' class='fnname'>not</a>(self) -&gt; Self::<a class="type" href="https://doc.rust-lang.org/nightly/core/ops/bit/trait.Not.html#associatedtype.Output" title="type core::ops::bit::Not::Output">Output</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/mod.rs.html#253-255' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Performs the unary <code>!</code> operation.</p>
+</div></div><h3 id='impl-ParJoin' class='impl'><span class='in-band'><code>impl&lt;'a, 'e, T, D&gt; <a class="trait" href="../specs/trait.ParJoin.html" title="trait specs::ParJoin">ParJoin</a> for &amp;'a <a class="struct" href="../specs/struct.Storage.html" title="struct specs::Storage">Storage</a>&lt;'e, T, D&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;D: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html" title="trait core::ops::deref::Deref">Deref</a>&lt;Target = MaskedStorage&lt;T&gt;&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;T::<a class="type" href="../specs/trait.Component.html#associatedtype.Storage" title="type specs::Component::Storage">Storage</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,&nbsp;</span></code><a href='#impl-ParJoin' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/mod.rs.html#258-263' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.par_join' class="method"><span id='par_join.v' class='invisible'><code>fn <a href='../specs/trait.ParJoin.html#method.par_join' class='fnname'>par_join</a>(self) -&gt; <a class="struct" href="../specs/struct.JoinParIter.html" title="struct specs::JoinParIter">JoinParIter</a>&lt;Self&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/join.rs.html#95-99' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Create a joined parallel iterator over the contents.</p>
+</div></div><h3 id='impl-Join-1' class='impl'><span class='in-band'><code>impl&lt;'a, 'e, T, D&gt; <a class="trait" href="../specs/trait.Join.html" title="trait specs::Join">Join</a> for &amp;'a mut <a class="struct" href="../specs/struct.Storage.html" title="struct specs::Storage">Storage</a>&lt;'e, T, D&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;D: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.DerefMut.html" title="trait core::ops::deref::DerefMut">DerefMut</a>&lt;Target = MaskedStorage&lt;T&gt;&gt;,&nbsp;</span></code><a href='#impl-Join-1' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/mod.rs.html#265-286' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Type-1' class="type"><span id='Type.t-1' class='invisible'><code>type <a href='../specs/trait.Join.html#associatedtype.Type' class="type">Type</a> = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'a mut </a>T</code></span></h4>
+<div class='docblock'><p>Type of joined components.</p>
+</div><h4 id='associatedtype.Value-1' class="type"><span id='Value.t-1' class='invisible'><code>type <a href='../specs/trait.Join.html#associatedtype.Value' class="type">Value</a> = &amp;'a mut T::<a class="type" href="../specs/trait.Component.html#associatedtype.Storage" title="type specs::Component::Storage">Storage</a></code></span></h4>
+<div class='docblock'><p>Type of joined storages.</p>
+</div><h4 id='associatedtype.Mask-1' class="type"><span id='Mask.t-1' class='invisible'><code>type <a href='../specs/trait.Join.html#associatedtype.Mask' class="type">Mask</a> = &amp;'a <a class="struct" href="../hibitset/struct.BitSet.html" title="struct hibitset::BitSet">BitSet</a></code></span></h4>
+<div class='docblock'><p>Type of joined bit mask.</p>
+</div><h4 id='method.open-1' class="method"><span id='open.v-1' class='invisible'><code>fn <a href='../specs/trait.Join.html#tymethod.open' class='fnname'>open</a>(self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>Self::<a class="type" href="../specs/trait.Join.html#associatedtype.Mask" title="type specs::Join::Mask">Mask</a>, Self::<a class="type" href="../specs/trait.Join.html#associatedtype.Value" title="type specs::Join::Value">Value</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/mod.rs.html#273-275' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Open this join by returning the mask and the storages.</p>
+</div><h4 id='method.get-2' class="method"><span id='get.v-2' class='invisible'><code>unsafe fn <a href='../specs/trait.Join.html#tymethod.get' class='fnname'>get</a>(v: &amp;mut Self::<a class="type" href="../specs/trait.Join.html#associatedtype.Value" title="type specs::Join::Value">Value</a>, i: <a class="type" href="../specs/type.Index.html" title="type specs::Index">Index</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'a mut </a>T</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/mod.rs.html#277-285' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get a joined component value by a given index.</p>
+</div><h4 id='method.join-1' class="method"><span id='join.v-1' class='invisible'><code>fn <a href='../specs/trait.Join.html#method.join' class='fnname'>join</a>(self) -&gt; <a class="struct" href="../specs/struct.JoinIter.html" title="struct specs::JoinIter">JoinIter</a>&lt;Self&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/join.rs.html#77-81' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Create a joined iterator over the contents.</p>
+</div></div><h3 id='impl-ParJoin-1' class='impl'><span class='in-band'><code>impl&lt;'a, 'e, T, D&gt; <a class="trait" href="../specs/trait.ParJoin.html" title="trait specs::ParJoin">ParJoin</a> for &amp;'a mut <a class="struct" href="../specs/struct.Storage.html" title="struct specs::Storage">Storage</a>&lt;'e, T, D&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;D: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.DerefMut.html" title="trait core::ops::deref::DerefMut">DerefMut</a>&lt;Target = MaskedStorage&lt;T&gt;&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;T::<a class="type" href="../specs/trait.Component.html#associatedtype.Storage" title="type specs::Component::Storage">Storage</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + <a class="trait" href="../specs/trait.DistinctStorage.html" title="trait specs::DistinctStorage">DistinctStorage</a>,&nbsp;</span></code><a href='#impl-ParJoin-1' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/mod.rs.html#288-293' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.par_join-1' class="method"><span id='par_join.v-1' class='invisible'><code>fn <a href='../specs/trait.ParJoin.html#method.par_join' class='fnname'>par_join</a>(self) -&gt; <a class="struct" href="../specs/struct.JoinParIter.html" title="struct specs::JoinParIter">JoinParIter</a>&lt;Self&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/join.rs.html#95-99' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Create a joined parallel iterator over the contents.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "specs";
+    </script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

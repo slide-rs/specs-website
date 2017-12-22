@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docs on Specs - Parallel ECS</title>
+    <link>https://slide-rs.github.io/specs-website/docs/</link>
+    <description>Recent content in Docs on Specs - Parallel ECS</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="https://slide-rs.github.io/specs-website/docs/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Docs</title>
+      <link>https://slide-rs.github.io/specs-website/docs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://slide-rs.github.io/specs-website/docs/</guid>
+      <description>Here you can find API documentation and the rendered book for the latest master and the latest releases.
+Unfortunately, the docs lack examples and detailed explanations at the moment. In case you&amp;rsquo;re willing to help out, we&amp;rsquo;re happy to accept a PR.
+If you have any question which isn&amp;rsquo;t addressed in the docs or the book, feel free to ask for help on Gitter or for a new chapter for our book.</description>
+    </item>
+    
+  </channel>
+</rss>

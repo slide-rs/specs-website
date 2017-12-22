@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `EntitiesRes` struct in crate `specs`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, EntitiesRes">
+
+    <title>specs::EntitiesRes - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Struct EntitiesRes</p><div class="block items"><ul><li><a href="#methods">Methods</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='index.html'>specs</a></p><script>window.sidebarCurrent = {name: 'EntitiesRes', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>specs</a>::<wbr><a class="struct" href=''>EntitiesRes</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/specs/world/entity.rs.html#232-234' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct EntitiesRes { /* fields omitted */ }</pre><div class='docblock'><p>The entities of this ECS. This is a resource, stored in the <code>World</code>.
+If you just want to access it in your system, you can also use the <code>Entities</code>
+type def.</p>
+
+<p><strong>Please note that you should never fetch
+this mutably in a system, because it would
+block all the other systems.</strong></p>
+
+<p>You need to call <code>World::maintain</code> after creating / deleting
+entities with this struct.</p>
+</div>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl <a class="struct" href="../specs/struct.EntitiesRes.html" title="struct specs::EntitiesRes">EntitiesRes</a></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world/entity.rs.html#236-270' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.create' class="method"><span id='create.v' class='invisible'><code>pub fn <a href='#method.create' class='fnname'>create</a>(&amp;self) -&gt; <a class="struct" href="../specs/struct.Entity.html" title="struct specs::Entity">Entity</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world/entity.rs.html#240-242' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Creates a new entity atomically.
+This will be persistent as soon
+as you call <code>World::maintain</code>.</p>
+</div><h4 id='method.create_iter' class="method"><span id='create_iter.v' class='invisible'><code>pub fn <a href='#method.create_iter' class='fnname'>create_iter</a>(&amp;self) -&gt; <a class="struct" href="../specs/struct.CreateIterAtomic.html" title="struct specs::CreateIterAtomic">CreateIterAtomic</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world/entity.rs.html#248-250' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns an iterator which creates
+new entities atomically.
+They will be persistent as soon
+as you call <code>World::maintain</code>.</p>
+</div><h4 id='method.delete' class="method"><span id='delete.v' class='invisible'><code>pub fn <a href='#method.delete' class='fnname'>delete</a>(&amp;self, e: <a class="struct" href="../specs/struct.Entity.html" title="struct specs::Entity">Entity</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>, <a class="struct" href="../specs/error/struct.WrongGeneration.html" title="struct specs::error::WrongGeneration">WrongGeneration</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world/entity.rs.html#255-257' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Deletes an entity atomically.
+The associated components will be
+deleted as soon as you call <code>World::maintain</code>.</p>
+</div><h4 id='method.entity' class="method"><span id='entity.v' class='invisible'><code>pub fn <a href='#method.entity' class='fnname'>entity</a>(&amp;self, id: <a class="type" href="../specs/type.Index.html" title="type specs::Index">Index</a>) -&gt; <a class="struct" href="../specs/struct.Entity.html" title="struct specs::Entity">Entity</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world/entity.rs.html#261-263' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns an entity with a given <code>id</code>. There&#39;s no guarantee for validity,
+meaning the entity could be not alive.</p>
+</div><h4 id='method.is_alive' class="method"><span id='is_alive.v' class='invisible'><code>pub fn <a href='#method.is_alive' class='fnname'>is_alive</a>(&amp;self, e: <a class="struct" href="../specs/struct.Entity.html" title="struct specs::Entity">Entity</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world/entity.rs.html#267-269' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns <code>true</code> if the specified entity is alive.</p>
+</div></div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-Debug' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../specs/struct.EntitiesRes.html" title="struct specs::EntitiesRes">EntitiesRes</a></code><a href='#impl-Debug' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world/entity.rs.html#231' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world/entity.rs.html#231' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 id='impl-Default' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html" title="trait core::default::Default">Default</a> for <a class="struct" href="../specs/struct.EntitiesRes.html" title="struct specs::EntitiesRes">EntitiesRes</a></code><a href='#impl-Default' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world/entity.rs.html#231' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.default' class="method"><span id='default.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default' class='fnname'>default</a>() -&gt; <a class="struct" href="../specs/struct.EntitiesRes.html" title="struct specs::EntitiesRes">EntitiesRes</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world/entity.rs.html#231' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns the &quot;default value&quot; for a type. <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default">Read more</a></p>
+</div></div><h3 id='impl-Join' class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="../specs/trait.Join.html" title="trait specs::Join">Join</a> for &amp;'a <a class="struct" href="../specs/struct.EntitiesRes.html" title="struct specs::EntitiesRes">EntitiesRes</a></code><a href='#impl-Join' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world/entity.rs.html#272-289' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Type' class="type"><span id='Type.t' class='invisible'><code>type <a href='../specs/trait.Join.html#associatedtype.Type' class="type">Type</a> = <a class="struct" href="../specs/struct.Entity.html" title="struct specs::Entity">Entity</a></code></span></h4>
+<div class='docblock'><p>Type of joined components.</p>
+</div><h4 id='associatedtype.Value' class="type"><span id='Value.t' class='invisible'><code>type <a href='../specs/trait.Join.html#associatedtype.Value' class="type">Value</a> = Self</code></span></h4>
+<div class='docblock'><p>Type of joined storages.</p>
+</div><h4 id='associatedtype.Mask' class="type"><span id='Mask.t' class='invisible'><code>type <a href='../specs/trait.Join.html#associatedtype.Mask' class="type">Mask</a> = <a class="struct" href="../hibitset/ops/struct.BitSetOr.html" title="struct hibitset::ops::BitSetOr">BitSetOr</a>&lt;&amp;'a <a class="struct" href="../hibitset/struct.BitSet.html" title="struct hibitset::BitSet">BitSet</a>, &amp;'a <a class="struct" href="../hibitset/atomic/struct.AtomicBitSet.html" title="struct hibitset::atomic::AtomicBitSet">AtomicBitSet</a>&gt;</code></span></h4>
+<div class='docblock'><p>Type of joined bit mask.</p>
+</div><h4 id='method.open' class="method"><span id='open.v' class='invisible'><code>fn <a href='../specs/trait.Join.html#tymethod.open' class='fnname'>open</a>(self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>Self::<a class="type" href="../specs/trait.Join.html#associatedtype.Mask" title="type specs::Join::Mask">Mask</a>, Self<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world/entity.rs.html#277-279' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Open this join by returning the mask and the storages.</p>
+</div><h4 id='method.get' class="method"><span id='get.v' class='invisible'><code>unsafe fn <a href='../specs/trait.Join.html#tymethod.get' class='fnname'>get</a>(v: &amp;mut &amp;'a <a class="struct" href="../specs/struct.EntitiesRes.html" title="struct specs::EntitiesRes">EntitiesRes</a>, idx: <a class="type" href="../specs/type.Index.html" title="type specs::Index">Index</a>) -&gt; <a class="struct" href="../specs/struct.Entity.html" title="struct specs::Entity">Entity</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world/entity.rs.html#281-288' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Get a joined component value by a given index.</p>
+</div><h4 id='method.join' class="method"><span id='join.v' class='invisible'><code>fn <a href='../specs/trait.Join.html#method.join' class='fnname'>join</a>(self) -&gt; <a class="struct" href="../specs/struct.JoinIter.html" title="struct specs::JoinIter">JoinIter</a>&lt;Self&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/join.rs.html#150-155' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Create a joined iterator over the contents.</p>
+</div></div><h3 id='impl-ParJoin' class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="../specs/trait.ParJoin.html" title="trait specs::ParJoin">ParJoin</a> for &amp;'a <a class="struct" href="../specs/struct.EntitiesRes.html" title="struct specs::EntitiesRes">EntitiesRes</a></code><a href='#impl-ParJoin' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world/entity.rs.html#291' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.par_join' class="method"><span id='par_join.v' class='invisible'><code>fn <a href='../specs/trait.ParJoin.html#method.par_join' class='fnname'>par_join</a>(self) -&gt; <a class="struct" href="../specs/struct.JoinParIter.html" title="struct specs::JoinParIter">JoinParIter</a>&lt;Self&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/join.rs.html#169-174' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Create a joined parallel iterator over the contents.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "specs";
+    </script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

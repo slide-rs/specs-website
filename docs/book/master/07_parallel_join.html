@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Parallel Join - The Specs Book</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="Introduction into ECS and the Specs API.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="01_intro.html"><strong>1.</strong> Introduction</a></li><li><a href="02_hello_world.html"><strong>2.</strong> Hello World</a></li><li><a href="03_dispatcher.html"><strong>3.</strong> Dispatcher</a></li><li><a href="04_resources.html"><strong>4.</strong> Resources</a></li><li><a href="05_storages.html"><strong>5.</strong> Storages</a></li><li><a href="06_system_data.html"><strong>6.</strong> System Data</a></li><li><a href="07_parallel_join.html" class="active"><strong>7.</strong> Parallel Join</a></li><li><a href="08_rendering.html"><strong>8.</strong> Rendering</a></li><li><strong>9.</strong> Building a game with Specs</li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title">The Specs Book</h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="07_parallel_join.html#draft-parallel-join" id="draft-parallel-join"><h1>[DRAFT] Parallel Join</h1></a>
+<p>As mentioned in the chapter dedicated on how to <a href="./03_dispatcher.html">dispatch</a> systems,
+Specs automatically parallelizes system execution when there is non-conflicting
+component requirements between them (mutability XOR aliasing).</p>
+<p>What isn't automatically parallelized by Specs are
+the joins made within a single system:</p>
+<pre><code class="language-rust ignore">    fn run(&amp;mut self, (vel, mut pos): Self::SystemData) {
+        use specs::Join;
+        // This loop runs sequentially on a single thread.
+        for (vel, pos) in (&amp;vel, &amp;mut pos).join() {
+            pos.x += vel.x * 0.05;
+            pos.y += vel.y * 0.05;
+        }
+    }
+</code></pre>
+<p>This means that, if there are hundreds of thousands of entities and only few
+systems that actually can be executed in parallel, then the full power
+of CPU cores cannot be fully utilized.</p>
+<p>To fix this inefficiency and to parallelize the joining, the <code>join</code>
+method call can be exchanged for <code>par_join</code>:</p>
+<pre><code class="language-rust ignore">    fn run(&amp;mut self, (vel, mut pos): Self::SystemData) {
+        use specs::ParJoin;
+        use rayon::iter::ParallelIterator;
+
+        // Parallel joining behaves similarly to normal joining
+        // with the difference that iteration can potentially be
+        // executed in parallel by a thread pool—the same way as
+        // the systems are executed.
+        (&amp;vel, &amp;mut pos).par_join()
+            .for_each(|(vel, pos)| {
+                pos.x += vel.x * 0.05;
+                pos.y += vel.y * 0.05;
+            });
+    }
+</code></pre>
+<p>The <code>par_join</code> method produces a type implementing <a href="https://crates.io/crates/rayon"><code>rayon</code>s <code>ParallelIterator</code></a>
+trait which provides lots of helper methods to manipulate the iteration,
+the same way as the normal <code>Iterator</code> trait does.</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="06_system_data.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="08_rendering.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="06_system_data.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="08_rendering.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

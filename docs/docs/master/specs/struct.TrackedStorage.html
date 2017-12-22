@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `TrackedStorage` struct in crate `specs`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, TrackedStorage">
+
+    <title>specs::TrackedStorage - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Struct TrackedStorage</p><div class="block items"><ul><li><a href="#methods">Methods</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='index.html'>specs</a></p><script>window.sidebarCurrent = {name: 'TrackedStorage', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>specs</a>::<wbr><a class="struct" href=''>TrackedStorage</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/specs/storage/tracked.rs.html#178-183' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct TrackedStorage&lt;C, S&nbsp;=&nbsp;<a class="struct" href="../specs/struct.DenseVecStorage.html" title="struct specs::DenseVecStorage">DenseVecStorage</a>&lt;C&gt;&gt; { /* fields omitted */ }</pre><div class='docblock'><p>Storage which tracks changes.</p>
+</div>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl&lt;C, S&gt; <a class="struct" href="../specs/struct.TrackedStorage.html" title="struct specs::TrackedStorage">TrackedStorage</a>&lt;C, S&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;C: <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;S: <a class="trait" href="../specs/trait.UnprotectedStorage.html" title="trait specs::UnprotectedStorage">UnprotectedStorage</a>&lt;C&gt;,&nbsp;</span></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/tracked.rs.html#185-217' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.change_events' class="method"><span id='change_events.v' class='invisible'><code>pub fn <a href='#method.change_events' class='fnname'>change_events</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="enum" href="../specs/enum.Change.html" title="enum specs::Change">Change</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/tracked.rs.html#193-195' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns a slice for all change events.
+The elements are in entity order, that means the <code>Change</code>
+for entity with id <code>5</code> will be the 6th element of this slice.</p>
+</div><h4 id='method.reset' class="method"><span id='reset.v' class='invisible'><code>pub unsafe fn <a href='#method.reset' class='fnname'>reset</a>(&amp;mut self, set: &amp;<a class="struct" href="../hibitset/struct.BitSet.html" title="struct hibitset::BitSet">BitSet</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/tracked.rs.html#198-205' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Resets the <code>TrackedStorage</code>.</p>
+</div></div><h3 id='impl-1' class='impl'><span class='in-band'><code>impl&lt;C, S&gt; <a class="struct" href="../specs/struct.TrackedStorage.html" title="struct specs::TrackedStorage">TrackedStorage</a>&lt;C, S&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;C: <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;S: <a class="trait" href="../specs/trait.UnprotectedStorage.html" title="trait specs::UnprotectedStorage">UnprotectedStorage</a>&lt;C&gt;,&nbsp;</span></code><a href='#impl-1' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/tracked.rs.html#219-237' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.maintain' class="method"><span id='maintain.v' class='invisible'><code>pub unsafe fn <a href='#method.maintain' class='fnname'>maintain</a>(&amp;mut self, set: &amp;<a class="struct" href="../hibitset/struct.BitSet.html" title="struct hibitset::BitSet">BitSet</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/tracked.rs.html#225-236' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Maintains the <code>TrackedStorage</code></p>
+</div></div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-Default' class='impl'><span class='in-band'><code>impl&lt;C, S&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html" title="trait core::default::Default">Default</a> for <a class="struct" href="../specs/struct.TrackedStorage.html" title="struct specs::TrackedStorage">TrackedStorage</a>&lt;C, S&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;S: <a class="trait" href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html" title="trait core::default::Default">Default</a>,&nbsp;</span></code><a href='#impl-Default' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/tracked.rs.html#176' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.default' class="method"><span id='default.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default' class='fnname'>default</a>() -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/tracked.rs.html#176' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns the &quot;default value&quot; for a type. <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default">Read more</a></p>
+</div></div><h3 id='impl-UnprotectedStorage&lt;C&gt;' class='impl'><span class='in-band'><code>impl&lt;C, S&gt; <a class="trait" href="../specs/trait.UnprotectedStorage.html" title="trait specs::UnprotectedStorage">UnprotectedStorage</a>&lt;C&gt; for <a class="struct" href="../specs/struct.TrackedStorage.html" title="struct specs::TrackedStorage">TrackedStorage</a>&lt;C, S&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;C: <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;S: <a class="trait" href="../specs/trait.UnprotectedStorage.html" title="trait specs::UnprotectedStorage">UnprotectedStorage</a>&lt;C&gt;,&nbsp;</span></code><a href='#impl-UnprotectedStorage&lt;C&gt;' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/tracked.rs.html#239-273' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clean' class="method"><span id='clean.v' class='invisible'><code>unsafe fn <a href='../specs/trait.UnprotectedStorage.html#tymethod.clean' class='fnname'>clean</a>&lt;F&gt;(&amp;mut self, f: F) <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.Fn.html" title="trait core::ops::function::Fn">Fn</a>(<a class="type" href="../specs/type.Index.html" title="type specs::Index">Index</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/tracked.rs.html#244-250' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Clean the storage given a check to figure out if an index is valid or not. Allows us to safely drop the storage. <a href="../specs/trait.UnprotectedStorage.html#tymethod.clean">Read more</a></p>
+</div><h4 id='method.get' class="method"><span id='get.v' class='invisible'><code>unsafe fn <a href='../specs/trait.UnprotectedStorage.html#tymethod.get' class='fnname'>get</a>(&amp;self, id: <a class="type" href="../specs/type.Index.html" title="type specs::Index">Index</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>C</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/tracked.rs.html#252-254' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Tries reading the data associated with an <code>Index</code>. This is unsafe because the external set used to protect this storage is absent. <a href="../specs/trait.UnprotectedStorage.html#tymethod.get">Read more</a></p>
+</div><h4 id='method.get_mut' class="method"><span id='get_mut.v' class='invisible'><code>unsafe fn <a href='../specs/trait.UnprotectedStorage.html#tymethod.get_mut' class='fnname'>get_mut</a>(&amp;mut self, id: <a class="type" href="../specs/type.Index.html" title="type specs::Index">Index</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;mut </a>C</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/tracked.rs.html#256-258' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Tries mutating the data associated with an <code>Index</code>. This is unsafe because the external set used to protect this storage is absent. <a href="../specs/trait.UnprotectedStorage.html#tymethod.get_mut">Read more</a></p>
+</div><h4 id='method.insert' class="method"><span id='insert.v' class='invisible'><code>unsafe fn <a href='../specs/trait.UnprotectedStorage.html#tymethod.insert' class='fnname'>insert</a>(&amp;mut self, id: <a class="type" href="../specs/type.Index.html" title="type specs::Index">Index</a>, value: C)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/tracked.rs.html#260-265' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Inserts new data for a given <code>Index</code>.</p>
+</div><h4 id='method.remove' class="method"><span id='remove.v' class='invisible'><code>unsafe fn <a href='../specs/trait.UnprotectedStorage.html#tymethod.remove' class='fnname'>remove</a>(&amp;mut self, id: <a class="type" href="../specs/type.Index.html" title="type specs::Index">Index</a>) -&gt; C</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/storage/tracked.rs.html#267-272' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Removes the data associated with an <code>Index</code>.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "specs";
+    </script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

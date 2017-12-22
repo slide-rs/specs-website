@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `EntityBuilder` struct in crate `specs`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, EntityBuilder">
+
+    <title>specs::EntityBuilder - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Struct EntityBuilder</p><div class="block items"><ul><li><a href="#fields">Fields</a></li><li><a href="#methods">Methods</a></li></ul></div><p class='location'><a href='index.html'>specs</a></p><script>window.sidebarCurrent = {name: 'EntityBuilder', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>specs</a>::<wbr><a class="struct" href=''>EntityBuilder</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/specs/world/mod.rs.html#149-154' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct EntityBuilder&lt;'a&gt; {
+    pub entity: <a class="struct" href="../specs/struct.Entity.html" title="struct specs::Entity">Entity</a>,
+    pub world: &amp;'a <a class="struct" href="../specs/struct.World.html" title="struct specs::World">World</a>,
+}</pre><div class='docblock'><p>The entity builder, allowing to
+build an entity together with its components.</p>
+
+<h2 id='examples' class='section-header'><a href='#examples'>Examples</a></h2>
+<pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">specs</span>::{<span class="ident">Component</span>, <span class="ident">DenseVecStorage</span>, <span class="ident">HashMapStorage</span>, <span class="ident">World</span>};
+
+<span class="kw">struct</span> <span class="ident">Health</span>(<span class="ident">f32</span>);
+
+<span class="kw">impl</span> <span class="ident">Component</span> <span class="kw">for</span> <span class="ident">Health</span> {
+    <span class="kw">type</span> <span class="ident">Storage</span> <span class="op">=</span> <span class="ident">HashMapStorage</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>;
+}
+
+<span class="kw">struct</span> <span class="ident">Pos</span> {
+    <span class="ident">x</span>: <span class="ident">f32</span>,
+    <span class="ident">y</span>: <span class="ident">f32</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">Component</span> <span class="kw">for</span> <span class="ident">Pos</span> {
+    <span class="kw">type</span> <span class="ident">Storage</span> <span class="op">=</span> <span class="ident">DenseVecStorage</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>;
+}
+
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">world</span> <span class="op">=</span> <span class="ident">World</span>::<span class="ident">new</span>();
+<span class="ident">world</span>.<span class="ident">register</span>::<span class="op">&lt;</span><span class="ident">Health</span><span class="op">&gt;</span>();
+<span class="ident">world</span>.<span class="ident">register</span>::<span class="op">&lt;</span><span class="ident">Pos</span><span class="op">&gt;</span>();
+
+<span class="kw">let</span> <span class="ident">entity</span> <span class="op">=</span> <span class="ident">world</span>
+    .<span class="ident">create_entity</span>() <span class="comment">// This call returns `EntityBuilder`</span>
+    .<span class="ident">with</span>(<span class="ident">Health</span>(<span class="number">4.0</span>))
+    .<span class="ident">with</span>(<span class="ident">Pos</span> { <span class="ident">x</span>: <span class="number">1.0</span>, <span class="ident">y</span>: <span class="number">3.0</span> })
+    .<span class="ident">build</span>(); <span class="comment">// Returns the `Entity`</span></pre>
+</div><h2 id='fields' class='fields small-section-header'>
+                       Fields<a href='#fields' class='anchor'></a></h2><span id="structfield.entity" class="structfield small-section-header">
+                           <a href="#structfield.entity" class="anchor field"></a>
+                           <span id="entity.v" class='invisible'>
+                           <code>entity: <a class="struct" href="../specs/struct.Entity.html" title="struct specs::Entity">Entity</a></code>
+                           </span></span><div class='docblock'><p>The (already created) entity for which components will be inserted.</p>
+</div><span id="structfield.world" class="structfield small-section-header">
+                           <a href="#structfield.world" class="anchor field"></a>
+                           <span id="world.v" class='invisible'>
+                           <code>world: &amp;'a <a class="struct" href="../specs/struct.World.html" title="struct specs::World">World</a></code>
+                           </span></span><div class='docblock'><p>A reference to the <code>World</code> for component insertions.</p>
+</div>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="struct" href="../specs/struct.EntityBuilder.html" title="struct specs::EntityBuilder">EntityBuilder</a>&lt;'a&gt;</code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/saveload/marker.rs.html#13-45' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.marked' class="method"><span id='marked.v' class='invisible'><code>pub fn <a href='#method.marked' class='fnname'>marked</a>&lt;M&gt;(self) -&gt; Self <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;M: <a class="trait" href="../specs/saveload/trait.Marker.html" title="trait specs::saveload::Marker">Marker</a>,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/saveload/marker.rs.html#36-44' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Add a <code>Marker</code> to the entity by fetching the associated allocator.</p>
+
+<h2 id='examples-1' class='section-header'><a href='#examples-1'>Examples</a></h2>
+<pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">specs</span>::<span class="ident">saveload</span>::{<span class="ident">U64Marker</span>, <span class="ident">U64MarkerAllocator</span>};
+<span class="kw">use</span> <span class="ident">specs</span>::<span class="ident">World</span>;
+
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">world</span> <span class="op">=</span> <span class="ident">World</span>::<span class="ident">new</span>();
+<span class="ident">world</span>.<span class="ident">register</span>::<span class="op">&lt;</span><span class="ident">U64Marker</span><span class="op">&gt;</span>();
+<span class="ident">world</span>.<span class="ident">add_resource</span>(<span class="ident">U64MarkerAllocator</span>::<span class="ident">new</span>());
+
+<span class="ident">world</span>
+    .<span class="ident">create_entity</span>()
+    <span class="comment">/* .with(Component1) */</span>
+    .<span class="ident">marked</span>::<span class="op">&lt;</span><span class="ident">U64Marker</span><span class="op">&gt;</span>()
+    .<span class="ident">build</span>();</pre>
+
+<h2 id='panics' class='section-header'><a href='#panics'>Panics</a></h2>
+<p>Panics in case there&#39;s no allocator added to the <code>World</code>.</p>
+</div></div><h3 id='impl-1' class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="struct" href="../specs/struct.EntityBuilder.html" title="struct specs::EntityBuilder">EntityBuilder</a>&lt;'a&gt;</code><a href='#impl-1' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world/mod.rs.html#156-189' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.with' class="method"><span id='with.v' class='invisible'><code>pub fn <a href='#method.with' class='fnname'>with</a>&lt;T:&nbsp;<a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a>&gt;(self, c: T) -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world/mod.rs.html#164-166' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Appends a component with the default component id.</p>
+
+<h1 id='panics-1' class='section-header'><a href='#panics-1'>Panics</a></h1>
+<p>Panics if the component hasn&#39;t been <code>register()</code>ed in the
+<code>World</code>.</p>
+</div><h4 id='method.with_id' class="method"><span id='with_id.v' class='invisible'><code>pub fn <a href='#method.with_id' class='fnname'>with_id</a>&lt;T:&nbsp;<a class="trait" href="../specs/trait.Component.html" title="trait specs::Component">Component</a>&gt;(self, c: T, id: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world/mod.rs.html#175-182' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Appends a component with a component id.</p>
+
+<h1 id='panics-2' class='section-header'><a href='#panics-2'>Panics</a></h1>
+<p>Panics if the component hasn&#39;t been <code>register_with_id()</code>ed in the
+<code>World</code>.</p>
+</div><h4 id='method.build' class="method"><span id='build.v' class='invisible'><code>pub fn <a href='#method.build' class='fnname'>build</a>(self) -&gt; <a class="struct" href="../specs/struct.Entity.html" title="struct specs::Entity">Entity</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/specs/world/mod.rs.html#186-188' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Finishes the building and returns the entity.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "specs";
+    </script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>
